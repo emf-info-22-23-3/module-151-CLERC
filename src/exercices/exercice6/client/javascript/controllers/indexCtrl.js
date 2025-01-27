@@ -16,7 +16,6 @@ function chargerTeamSuccess(data, text, jqXHR) {
 
     // Appelé lorsque la liste des équipes est reçue
     var tabEquipes = document.getElementById("tabEquipes"); // Le tableau où on va afficher les équipes
-    tabEquipes.innerHTML = ""; // Vide le contenu existant dans le tableau
 
     // Vérifie si data est un tableau d'équipes
     for (var i = 0; i < data.length; i++) {
