@@ -1,13 +1,10 @@
 <?php
 	$bdd = new PDO('mysql:host=localhost;dbname=nomDB', 'root', 'pwd');
-	$reponse = …;
+	$reponse = 0;
 	
 	
-	while (…)
+	while (true)
 	{
-	
-	        …
-
 	
 	}
 	$reponse->closeCursor();
