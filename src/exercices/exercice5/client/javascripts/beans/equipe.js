@@ -10,14 +10,14 @@
  * Bean Equipe
  * @returns {Equipe}
  */
-var Equipe = function() {
+var Equipe = function () {
 };
 
 /**
  * Setter pour le nom de l'équipe
  * @param String nom
  */
-Equipe.prototype.setNom = function(nom) {
+Equipe.prototype.setNom = function (nom) {
   this.nom = nom;
 };
 
@@ -25,7 +25,7 @@ Equipe.prototype.setNom = function(nom) {
  * Setter pour le pk de l'équipe
  * @param Integer pk
  */
-Equipe.prototype.setPk = function(pk) {
+Equipe.prototype.setPk = function (pk) {
   this.pk = pk;
 };
 

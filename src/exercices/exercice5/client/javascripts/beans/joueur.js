@@ -6,7 +6,7 @@
  * @version 1.0 / 13-SEP-2013
  */
 
-var Joueur = function() {
+var Joueur = function () {
 };
 
 /**
@@ -14,7 +14,7 @@ var Joueur = function() {
  * @param String nom
  * @returns {undefined}
  */
-Joueur.prototype.setNom = function(nom) {
+Joueur.prototype.setNom = function (nom) {
   this.nom = nom;
 };
 
@@ -23,7 +23,7 @@ Joueur.prototype.setNom = function(nom) {
  * @param int points
  * @returns {undefined}
  */
-Joueur.prototype.setPoints = function(points) {
+Joueur.prototype.setPoints = function (points) {
   this.points = points;
 };
 

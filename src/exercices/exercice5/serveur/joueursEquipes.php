@@ -25,19 +25,19 @@ if($_GET['action'] == "joueur")
 		echo '<joueur><id>4</id><nom>Adrien Lauper</nom><points>3</points></joueur>';
 		echo '<joueur><id>5</id><nom>Mike Knopfli</nom><points>9</points></joueur>';
 	}
-	if ($_GET['equipeId'] == '8')
-	{
-		echo '<joueur><id>2</id><nom>Goran Bezina</nom><points>11</points></joueur>';
-		echo '<joueur><id>3</id><nom>Rico Fata</nom><points>66</points></joueur>';
-		echo '<joueur><id>4</id><nom>John Fritsche</nom><points>10</points></joueur>';
-		echo '<joueur><id>5</id><nom>Tobias Stephan</nom><points>9</points></joueur>';
-	}
 	if ($_GET['equipeId'] == '7')
 	{
 		echo '<joueur><id>2</id><nom>Reto von Arx</nom><points>9</points></joueur>';
 		echo '<joueur><id>3</id><nom>Jan von Arx</nom><points>30</points></joueur>';
 		echo '<joueur><id>4</id><nom>Beat Forster</nom><points>22</points></joueur>';
 		echo '<joueur><id>5</id><nom>Sandro Rizzi</nom><points>60</points></joueur>';
+	}
+	if ($_GET['equipeId'] == '8')
+	{
+		echo '<joueur><id>2</id><nom>Goran Bezina</nom><points>11</points></joueur>';
+		echo '<joueur><id>3</id><nom>Rico Fata</nom><points>66</points></joueur>';
+		echo '<joueur><id>4</id><nom>John Fritsche</nom><points>10</points></joueur>';
+		echo '<joueur><id>5</id><nom>Tobias Stephan</nom><points>9</points></joueur>';
 	}
 	echo '</joueurs>';
 }
