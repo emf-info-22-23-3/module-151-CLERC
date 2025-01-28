@@ -1,4 +1,5 @@
 <?php
+require_once("Equipe.php");
 require_once("Ctrl.php");
 require_once('Wrk.php');
 $ctrl = new Ctrl();
