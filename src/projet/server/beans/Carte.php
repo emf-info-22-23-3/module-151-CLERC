@@ -7,23 +7,97 @@ class Carte
     private $dateCreation;
     private $dateEcheance;
     private $priorite;
-    private $commentaires;
+    private $commentaires = [];
     private $utilisateurOrigine;
 
-    public function __construct($id, $nom)
-    {
+    public function __construct(
+        int $id,
+        string $nom,
+        string $categorie,
+        DateTime $dateCreation,
+        ?DateTime $dateEcheance,
+        string $priorite,
+        string $utilisateurOrigine
+    ) {
         $this->id = $id;
         $this->nom = $nom;
+        $this->categorie = $categorie;
+        $this->dateCreation = $dateCreation;
+        $this->dateEcheance = $dateEcheance;
+        $this->priorite = $priorite;
+        $this->utilisateurOrigine = $utilisateurOrigine;
     }
 
-    public function getId()
+    // Getters
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getNom()
+    public function getNom(): string
     {
         return $this->nom;
+    }
+
+    public function getCategorie(): string
+    {
+        return $this->categorie;
+    }
+
+    public function getDateCreation(): DateTime
+    {
+        return $this->dateCreation;
+    }
+
+    public function getDateEcheance(): ?DateTime
+    {
+        return $this->dateEcheance;
+    }
+
+    public function getPriorite(): string
+    {
+        return $this->priorite;
+    }
+
+    public function getCommentaires(): array
+    {
+        return $this->commentaires;
+    }
+
+    public function getUtilisateurOrigine(): string
+    {
+        return $this->utilisateurOrigine;
+    }
+
+    // Setters
+    public function setNom(string $nom): void
+    {
+        $this->nom = $nom;
+    }
+
+    public function setCategorie(string $categorie): void
+    {
+        $this->categorie = $categorie;
+    }
+
+    public function setDateEcheance(?DateTime $dateEcheance): void
+    {
+        $this->dateEcheance = $dateEcheance;
+    }
+
+    public function setPriorite(string $priorite): void
+    {
+        $this->priorite = $priorite;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): void
+    {
+        $this->commentaires[] = $commentaire;
+    }
+
+    public function setUtilisateurOrigine(string $utilisateurOrigine): void
+    {
+        $this->utilisateurOrigine = $utilisateurOrigine;
     }
 }
 ?>
