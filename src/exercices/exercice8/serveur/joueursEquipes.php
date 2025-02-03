@@ -1,9 +1,9 @@
 <?php
-include_once 'Ctrl.php';
-include_once 'Wrk.php';
-include_once 'db_config.php';
-include_once 'Equipe.php';
-include_once 'Joueur.php';
+require_once './Ctrl/Ctrl.php';
+require_once './Wrk/Wrk.php';
+require_once './Helpers/db_config.php';
+require_once './Beans/Equipe.php';
+require_once './Beans/Joueur.php';
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 

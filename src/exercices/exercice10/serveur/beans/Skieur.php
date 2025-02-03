@@ -5,9 +5,6 @@
  *
  * Cette classe représente un skieur.
  *
- * @version 1.0
- * @author Neuhaus Olivier <neuhauso@edufr.ch>
- * @project Exercice 10 - debuggage
  */
 class Skieur {
 

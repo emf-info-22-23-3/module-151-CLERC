@@ -1,11 +1,9 @@
 /*
  * Couche de services HTTP (worker).
  *
- * @author Olivier Neuhaus
- * @version 1.0 / 13-SEP-2013
  */
 
-var BASE_URL = "http://localhost/151/151_Ex10_Debuggage_Kitzbuehl/serveur/";
+var BASE_URL = "http://localhost:8080/exercices/exercice10/serveur/";
 
 /**
  * Fonction permettant de demander la liste des pays au serveur.
@@ -33,7 +31,7 @@ function chargerSkieurs(paysId, successCallback, errorCallback) {
     type: "GET",
     dataType: "xml",
     url: BASE_URL + "skieurManager.php",
-    data:'paysId=' + paysId,
+    data: 'paysId=' + paysId,
     success: successCallback,
     error: errorCallback
   });

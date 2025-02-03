@@ -1,8 +1,6 @@
 /*
  * Contrôleur de la vue "index.html"
  *
- * @author Olivier Neuhaus
- * @version 1.0 / 13-SEP-2013
  */
 
 /**

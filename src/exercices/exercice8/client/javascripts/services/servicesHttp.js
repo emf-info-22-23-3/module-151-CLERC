@@ -5,7 +5,7 @@
  * @version 1.0 / 20-SEP-2013
  */
 
-var BASE_URL = "http://localhost:8080/exercices/exercice5/serveur/joueursEquipes.php";
+var BASE_URL = "http://localhost:8080/exercices/exercice8/serveur/joueursEquipes.php";
 
 /**
  * Fonction permettant de charger les données d'équipe.
