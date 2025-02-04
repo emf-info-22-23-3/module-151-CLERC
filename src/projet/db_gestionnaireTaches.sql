@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `bd_gestionnaireTaches`.`t_utilisateur` (
   `nom` VARCHAR(30) NOT NULL,
   `prenom` VARCHAR(20) NOT NULL,
   `login` VARCHAR(20) NOT NULL,
-  `password` VARCHAR(40) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`pk_utilisateur`),
   UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE)
 ENGINE = InnoDB

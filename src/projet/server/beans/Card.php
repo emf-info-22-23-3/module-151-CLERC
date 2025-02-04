@@ -7,7 +7,6 @@ class Carte
     private $dateCreation;
     private $dateEcheance;
     private $priorite;
-    private $commentaires = [];
     private $utilisateurOrigine;
 
     public function __construct(
@@ -59,11 +58,6 @@ class Carte
         return $this->priorite;
     }
 
-    public function getCommentaires(): array
-    {
-        return $this->commentaires;
-    }
-
     public function getUtilisateurOrigine(): string
     {
         return $this->utilisateurOrigine;
@@ -88,11 +82,6 @@ class Carte
     public function setPriorite(string $priorite): void
     {
         $this->priorite = $priorite;
-    }
-
-    public function addCommentaire(Commentaire $commentaire): void
-    {
-        $this->commentaires[] = $commentaire;
     }
 
     public function setUtilisateurOrigine(string $utilisateurOrigine): void
