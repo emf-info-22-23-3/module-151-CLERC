@@ -35,9 +35,15 @@ switch ($action) {
 
     case "login":
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Vérifier que les identifiants sont bien fournis
+            if (!isset($_POST['login']) || !isset($_POST['password']) || empty($_POST['login']) || empty($_POST['password'])) {
+                echo json_encode(array("result" => false, "error" => "Identifiants incomplets"));
+                break;
+            }
+
             // Récupérer les identifiants envoyés en POST
-            $login = isset($_POST['login']) ? $_POST['login'] : "";
-            $password = isset($_POST['password']) ? $_POST['password'] : "";
+            $login = $_POST['login'];
+            $password = $_POST['password'];
 
             // Utiliser UserManager pour la connexion, qui appellera SessionManager en interne
             $userManager = new UserManager();

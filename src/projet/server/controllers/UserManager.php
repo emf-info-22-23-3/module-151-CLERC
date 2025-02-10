@@ -1,9 +1,4 @@
 <?php
-// controllers/UserManager.php
-
-require_once(__DIR__ . '/../helpers/DBUserManager.php');
-require_once(__DIR__ . '/../beans/User.php');
-require_once(__DIR__ . '/../helpers/SessionManager.php');
 
 class UserManager
 {
@@ -27,7 +22,7 @@ class UserManager
     {
         $user = $this->dbUserManager->getUserByLogin($login);
         if ($user) {
-            // Vérifier le mot de passe avec password_verify (les mots de passe doivent être hashés en DB)
+
             if (password_verify($password, $user->getPassword())) {
                 return $user;
             }
@@ -46,7 +41,6 @@ class UserManager
     {
         $user = $this->checkCredentials($login, $password);
         if ($user) {
-            // Utilisation de SessionManager pour enregistrer l'utilisateur en session
             $this->sessionManager->login($user);
             return true;
         }

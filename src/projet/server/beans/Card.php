@@ -17,7 +17,8 @@ class Card
         DateTime $dateCreation,
         ?DateTime $dateEcheance,
         string $priorite,
-        string $utilisateurOrigine,
+        string $utilisateurOrigineNom,
+        string $utilisateurOriginePrenom,
         array $commentaires = []
     ) {
         $this->id = $id;
@@ -26,7 +27,7 @@ class Card
         $this->dateCreation = $dateCreation;
         $this->dateEcheance = $dateEcheance;
         $this->priorite = $priorite;
-        $this->utilisateurOrigine = $utilisateurOrigine;
+        $this->utilisateurOrigine = $utilisateurOrigineNom . " " . $utilisateurOriginePrenom;
         $this->commentaires = $commentaires;
     }
 

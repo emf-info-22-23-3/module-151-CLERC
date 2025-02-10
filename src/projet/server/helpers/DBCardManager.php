@@ -20,7 +20,8 @@ class DBCardManager
                     t.date_creation, 
                     t.date_echeance, 
                     t.priorite, 
-                    u.login AS utilisateurOrigine 
+                    u.nom AS utilisateurOrigineNom, 
+                    u.prenom AS utilisateurOriginePrenom 
                 FROM t_tache t
                 LEFT JOIN t_utilisateur u ON t.fk_utilisateur_tache = u.pk_utilisateur";
 
@@ -36,7 +37,8 @@ class DBCardManager
                 new DateTime($row['date_creation']),
                 !empty($row['date_echeance']) ? new DateTime($row['date_echeance']) : null,
                 $row['priorite'],
-                $row['utilisateurOrigine'] // Login de l'utilisateur récupéré via la jointure
+                $row['utilisateurOrigineNom'],
+                $row['utilisateurOriginePrenom']
             );
         }
         return $tasks;

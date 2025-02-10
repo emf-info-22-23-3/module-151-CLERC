@@ -1,7 +1,4 @@
 <?php
-// DBUserManager.php
-require_once(__DIR__ . '/DBConnection.php');
-require_once(__DIR__ . '/../beans/User.php');
 
 class DBUserManager
 {
