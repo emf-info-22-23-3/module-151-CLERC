@@ -1,13 +1,14 @@
 <?php
-class Carte
+class Card
 {
-    private $id;
-    private $nom;
-    private $categorie;
-    private $dateCreation;
-    private $dateEcheance;
-    private $priorite;
-    private $utilisateurOrigine;
+    private int $id;
+    private string $nom;
+    private string $categorie;
+    private DateTime $dateCreation;
+    private ?DateTime $dateEcheance;
+    private string $priorite;
+    private string $utilisateurOrigine;
+    private array $commentaires = [];
 
     public function __construct(
         int $id,
@@ -16,7 +17,8 @@ class Carte
         DateTime $dateCreation,
         ?DateTime $dateEcheance,
         string $priorite,
-        string $utilisateurOrigine
+        string $utilisateurOrigine,
+        array $commentaires = []
     ) {
         $this->id = $id;
         $this->nom = $nom;
@@ -25,6 +27,7 @@ class Carte
         $this->dateEcheance = $dateEcheance;
         $this->priorite = $priorite;
         $this->utilisateurOrigine = $utilisateurOrigine;
+        $this->commentaires = $commentaires;
     }
 
     // Getters
@@ -63,6 +66,11 @@ class Carte
         return $this->utilisateurOrigine;
     }
 
+    public function getCommentaires(): array
+    {
+        return $this->commentaires;
+    }
+
     // Setters
     public function setNom(string $nom): void
     {
@@ -87,6 +95,24 @@ class Carte
     public function setUtilisateurOrigine(string $utilisateurOrigine): void
     {
         $this->utilisateurOrigine = $utilisateurOrigine;
+    }
+
+    // Méthodes pour gérer les commentaires
+    public function addCommentaire(Comment $commentaire): void
+    {
+        $this->commentaires[] = $commentaire;
+    }
+
+    public function removeCommentaire(int $index): void
+    {
+        if (isset($this->commentaires[$index])) {
+            array_splice($this->commentaires, $index, 1);
+        }
+    }
+
+    public function clearCommentaires(): void
+    {
+        $this->commentaires = [];
     }
 }
 ?>

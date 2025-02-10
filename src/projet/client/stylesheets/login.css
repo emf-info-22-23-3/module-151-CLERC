@@ -1,0 +1,139 @@
+/* Réinitialisation des marges et paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style global du body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Conteneur principal */
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 450px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Conteneur des formulaires avec animation */
+.forms {
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    display: flex;
+    transition: transform 0.6s ease-in-out;
+}
+
+/* Conteneur individuel pour chaque formulaire */
+.form-container {
+    width: 50%;
+    padding: 40px;
+}
+
+/* Titres */
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Styles des champs de saisie */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* Styles du bouton */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Texte pour le changement de formulaire */
+.switch-form {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 14px;
+    color: #666;
+}
+
+.switch-form span {
+    color: #4CAF50;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.switch-form span:hover {
+    text-decoration: underline;
+}
+
+/* Positionnement initial des formulaires */
+.login-container {
+    left: 0;
+    width: 50%;
+}
+
+.register-container {
+    left: 50%;
+    width: 50%;
+}
+
+/* Animation lors du passage en mode inscription */
+.container.register-mode .forms {
+    transform: translateX(-50%);
+}
+
+/* Positionne le lien de visiteur tout en bas du container */
+.visitor-link {
+    position: absolute;
+    bottom: 10px;  /* Ajuste cette valeur selon l'espacement souhaité */
+    left: 0;
+    width: 50%;
+    text-align: center;
+}
+
+/* Style du lien : bleu, gras, et texte plus petit */
+.visitor-link a {
+    color: blue;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.8rem; /* Rend le texte plus petit */
+}
+
+.visitor-link a:hover {
+    text-decoration: underline;
+}

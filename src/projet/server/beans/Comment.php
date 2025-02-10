@@ -1,9 +1,9 @@
 <?php
-class Commentaire
+class Comment
 {
-    private $contenu;
-    private $date;
-    private $auteur;
+    private string $contenu;
+    private DateTime $date;
+    private string $auteur;
 
     public function __construct(string $contenu, DateTime $date, string $auteur)
     {
@@ -12,6 +12,7 @@ class Commentaire
         $this->auteur = $auteur;
     }
 
+    // Getters
     public function getContenu(): string
     {
         return $this->contenu;
