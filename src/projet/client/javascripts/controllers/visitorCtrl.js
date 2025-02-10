@@ -12,28 +12,28 @@
  * @param {type} jqXHR
  */
 function loadTasksSuccess(tasks) {
-    // Pour chaque tâche reçue, on crée un élément d'accordéon et on l'injecte dans la bonne colonne.
-    tasks.forEach(function (task) {
-        // Détermine l'ID de l'accordéon en fonction de la catégorie
-        let accordionId = "";
-        let categorie = task.categorie.toLowerCase();
-        if (categorie === "todo") {
-            accordionId = "accordionToDo";
-        } else if (categorie === "inprogress") {
-            accordionId = "accordionInProgress";
-        } else if (categorie === "totest") {
-            accordionId = "accordionToTest";
-        } else if (categorie === "validated") {
-            accordionId = "accordionValidated";
-        }
+  // Pour chaque tâche reçue, on crée un élément d'accordéon et on l'injecte dans la bonne colonne.
+  tasks.forEach(function (task) {
+    // Détermine l'ID de l'accordéon en fonction de la catégorie
+    let accordionId = "";
+    let categorie = task.categorie.toLowerCase();
+    if (categorie === "todo") {
+      accordionId = "accordionToDo";
+    } else if (categorie === "inprogress") {
+      accordionId = "accordionInProgress";
+    } else if (categorie === "totest") {
+      accordionId = "accordionToTest";
+    } else if (categorie === "validated") {
+      accordionId = "accordionValidated";
+    }
 
-        if (accordionId !== "") {
-            // Utilise l'ID de la tâche pour créer des identifiants uniques pour les éléments collapse
-            let collapseId = "collapse" + task.id;
-            let headingId = "heading" + task.id;
+    if (accordionId !== "") {
+      // Utilise l'ID de la tâche pour créer des identifiants uniques pour les éléments collapse
+      let collapseId = "collapse" + task.id;
+      let headingId = "heading" + task.id;
 
-            // Crée le code HTML pour l'élément de l'accordéon
-            let itemHtml = `
+      // Crée le code HTML pour l'élément de l'accordéon
+      let itemHtml = `
             <div class="accordion-item">
               <h2 class="accordion-header" id="${headingId}">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -52,17 +52,17 @@ function loadTasksSuccess(tasks) {
               </div>
             </div>
             `;
-            // Ajoute l'élément dans l'accordéon correspondant
-            $("#" + accordionId).append(itemHtml);
-        }
-    });
+      // Ajoute l'élément dans l'accordéon correspondant
+      $("#" + accordionId).append(itemHtml);
+    }
+  });
 }
 
 /**
  * Callback en cas d'erreur lors du chargement des tâches.
  */
 function loadTasksError(request, status, error) {
-    alert("Erreur lors du chargement des tâches : " + error);
+  alert("Erreur lors du chargement des tâches : " + error);
 }
 /**
  * Méthode "start" appelée après le chargement complet de la page
@@ -71,6 +71,6 @@ function loadTasksError(request, status, error) {
  * Fonction d'initialisation à exécuter lorsque la page est chargée.
  */
 $(document).ready(function () {
-    // Appel du service pour charger les tâches
-    chargerTasks(loadTasksSuccess, loadTasksError);
+  // Appel du service pour charger les tâches
+  chargerTasks(loadTasksSuccess, loadTasksError);
 });

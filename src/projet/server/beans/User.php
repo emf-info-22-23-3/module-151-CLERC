@@ -1,14 +1,15 @@
 <?php
+// User.php
 class User
 {
-    private int $id;
-    private string $username;
-    private string $password; // Stocké sous forme hashée
+    private $id;
+    private $login;
+    private $password; // Doit contenir le mot de passe hashé
 
-    public function __construct(int $id, string $username, string $password)
+    public function __construct(int $id, string $login, string $password)
     {
         $this->id = $id;
-        $this->username = $username;
+        $this->login = $login;
         $this->password = $password;
     }
 
@@ -18,9 +19,9 @@ class User
         return $this->id;
     }
 
-    public function getUsername(): string
+    public function getLogin(): string
     {
-        return $this->username;
+        return $this->login;
     }
 
     public function getPassword(): string
@@ -28,10 +29,10 @@ class User
         return $this->password;
     }
 
-    // Setters
-    public function setUsername(string $username): void
+    // Setters (si nécessaire)
+    public function setLogin(string $login): void
     {
-        $this->username = $username;
+        $this->login = $login;
     }
 
     public function setPassword(string $password): void

@@ -19,38 +19,22 @@
             <!-- Formulaire de connexion -->
             <div class="form-container login-container">
                 <h2>Connexion</h2>
-                <form>
+                <form id="loginForm">
                     <input type="text" placeholder="Login" required>
                     <input type="password" placeholder="Mot de passe" required>
                     <button type="submit">Se connecter</button>
                 </form>
-                <p class="switch-form">
-                    Pas de compte ? <span id="switchToRegister">Inscrivez-vous</span>
-                </p>
                 <p class="visitor-link">
                     <a href="./views/visitor-view.html">Continuer en tant que visiteur</a>
-                </p>
-            </div>
-
-            <!-- Formulaire d'inscription -->
-            <div class="form-container register-container">
-                <h2>Inscription</h2>
-                <form>
-                    <input type="text" placeholder="Nom" required>
-                    <input type="text" placeholder="Prénom" required>
-                    <input type="text" placeholder="Login" required>
-                    <input type="password" placeholder="Mot de passe" required>
-                    <button type="submit">S'inscrire</button>
-                </form>
-                <p class="switch-form">
-                    Déjà un compte ? <span id="switchToLogin">Connectez-vous</span>
                 </p>
             </div>
         </div>
     </div>
 
     <!-- ================= SCRIPTS ================= -->
-    <script src="./javascripts/helpers/login.js"></script>
+    <script src="./javascripts/helpers/jquery-1.10.2.min.js"></script>
+    <script src="./javascripts/services/servicesHttp.js"></script>
+    <script src="./javascripts/controllers/indexCtrl.js"></script>
 </body>
 
 </html>

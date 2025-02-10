@@ -1,3 +1,4 @@
+
 body {
     font-family: Arial, sans-serif;
 }
@@ -34,10 +35,11 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Style pour le lien "Connexion" en haut à droite */
+.login-container{
+    padding-right: 10px;
+}
+
 .login-link {
-    top: 10px;
-    right: 10px;
     font-weight: bold;
     text-decoration: none;
 }

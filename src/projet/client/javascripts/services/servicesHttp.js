@@ -19,3 +19,22 @@ function chargerTasks(successCallback, errorCallback) {
         error: errorCallback
     });
 }
+
+/**
+ * Envoie une requête AJAX pour connecter un utilisateur.
+ *
+ * @param {string} login - Le login de l'utilisateur.
+ * @param {string} password - Le mot de passe de l'utilisateur.
+ * @param {function} successCallback - Fonction appelée en cas de succès.
+ * @param {function} errorCallback - Fonction appelée en cas d'erreur.
+ */
+function loginUser(login, password, successCallback, errorCallback) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: BASE_URL + "?action=login",
+        data: { login: login, password: password },
+        success: successCallback,
+        error: errorCallback
+    });
+}
