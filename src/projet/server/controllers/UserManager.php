@@ -40,10 +40,53 @@ class UserManager
     public function login($login, $password)
     {
         $user = $this->checkCredentials($login, $password);
+
         if ($user) {
             $this->sessionManager->login($user);
             return true;
         }
+        
+        return false;
+    }
+
+    /**
+     * Tente de déconnecter l'utilisateur.
+     *
+     * @return bool true si la déconnexion est réussie, false sinon.
+     */
+    public function logout()
+    {
+        $isLogged = $this->sessionManager->isLogged();
+
+        if ($isLogged) {
+            $this->sessionManager->logout();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Tente de créer un nouvel utilisateur.
+     *
+     * @param string $name
+     * @param string $fullname
+     * @param string $login
+     * @param string $password
+     * @return bool true si l'ajout est réussi, false sinon.
+     */
+    public function newUser($name, $fullname, $login, $password)
+    {
+        $isLogged = $this->sessionManager->isLogged();
+
+        if ($isLogged) {
+            $user = $this->dbUserManager->addUser($name, $fullname, $login, $password);
+        }
+
+        if ($user) {
+            return true;
+        }
+
         return false;
     }
 }

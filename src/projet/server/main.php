@@ -36,7 +36,10 @@ switch ($action) {
     case "login":
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Vérifier que les identifiants sont bien fournis
-            if (!isset($_POST['login']) || !isset($_POST['password']) || empty($_POST['login']) || empty($_POST['password'])) {
+            if (
+                !isset($_POST['login']) || !isset($_POST['password']) ||
+                empty($_POST['login']) || empty($_POST['password'])
+            ) {
                 echo json_encode(array("result" => false, "error" => "Identifiants incomplets"));
                 break;
             }
@@ -51,6 +54,43 @@ switch ($action) {
                 echo json_encode(array("result" => true));
             } else {
                 echo json_encode(array("result" => false, "error" => "Identifiants incorrects"));
+            }
+        }
+        break;
+
+    case "logout":
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $userManager = new UserManager();
+            if ($userManager->logout()) {
+                echo json_encode(array("result" => true));
+            } else {
+                echo json_encode(array("result" => false, "error" => "Impossible de déconnecter l'utilisateur car il n'est pas loggé."));
+            }
+        }
+        break;
+
+    case "createUser":
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Vérifier que les données sont bien fournis
+            if (
+                !isset($_POST['name']) || !isset($_POST['fullname']) || !isset($_POST['login']) || !isset($_POST['password']) ||
+                empty($_POST['name']) || empty($_POST['fullname'] || empty($_POST['login']) || empty($_POST['password']))
+            ) {
+                echo json_encode(array("result" => false, "error" => "Un ou plusieurs champs ne sont pas renseignés."));
+                break;
+            }
+
+            // Récupérer les identifiants envoyés en POST
+            $name = $_POST['name'];
+            $fullname = $_POST['fullname'];
+            $login = $_POST['login'];
+            $password = $_POST['password'];
+
+            $userManager = new UserManager();
+            if ($userManager->newUser($name, $fullname, $login, $password)) {
+                echo json_encode(array("result" => true));
+            } else {
+                echo json_encode(array("result" => false, "error" => "Vous n'êtes pas connecté OU un utilisateur existant contient déjà ce login."));
             }
         }
         break;

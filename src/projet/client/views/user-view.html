@@ -25,9 +25,9 @@
 <body>
     <!-- Lien "Connexion" en haut à droite -->
     <div class="text-end login-container">
-        <a href="./visitor-view.html" class="login-link">Déconnexion</a>
-        <a href="./add-user.html" class="login-link">Ajouter un utilisateur</a>
-        <a href="./add-card.html" class="login-link">Ajouter une tâche</a>
+        <div><a href="./visitor-view.html" class="login-link">Déconnexion</a></div>
+        <div><a href="./add-user.html" class="login-link">Ajouter un utilisateur</a></div>
+        <div><a href="./add-card.html" class="login-link">Ajouter une tâche</a></div>
     </div>
 
     <div class="container py-5">
@@ -71,38 +71,9 @@
     <!-- ================= SCRIPTS ================= -->
     <script src="../javascripts/helpers/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../javascripts/controllers/visitorCtrl.js"></script>
+    <script src="../javascripts/controllers/kanbanCtrl.js"></script>
+    <script src="../javascripts/controllers/userCtrl.js"></script>
     <script src="../javascripts/services/servicesHttp.js"></script>
 </body>
-
-
-<!-- PREVIOUS BODY (Sans accordéon Bootstrap)
-<body>
-  <div class="container py-5">
-    <h1 class="text-center pt-4 mb-4">Gestionnaire de tâches <span class="badge text-bg-dark">KANBAN</span></h1>
-    <div class="kanban-board">
-      <div class="kanban-column">
-        <h4>To Do <i class="uil uil-file"></i></h4>
-        <div class="card">Tâche 1</div>
-        <div class="card">Tâche 2</div>
-      </div>
-      <div class="kanban-column">
-        <h4>In Progress <i class="uil uil-edit-alt"></i></h4>
-        <div class="card">Tâche 3</div>
-        <div class="card">Tâche 4</div>
-      </div>
-      <div class="kanban-column">
-        <h4>To Test <i class="uil uil-check"></i></h4>
-        <div class="card">Tâche 5</div>
-      </div>
-      <div class="kanban-column">
-        <h4>Validated <i class="uil uil-check-circle"></i></h4>
-        <div class="card">Tâche 6</div>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>-->
 
 </html>
