@@ -34,21 +34,3 @@ body {
     margin-bottom: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
-.login-container {
-    padding-right: 10px;
-    display: flex;
-    justify-content: right;
-    flex-direction: column;
-}
-
-.login-link {
-    display: flex;
-    justify-content: right;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.login-link:hover {
-    text-decoration: underline;
-}

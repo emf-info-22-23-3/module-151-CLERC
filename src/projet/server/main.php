@@ -14,27 +14,30 @@ $action = isset($_GET['action']) ? $_GET['action'] : "";
 
 switch ($action) {
     case "getTasks":
-        $cardManager = new CardManager();
-        $tasks = $cardManager->getAllTasks();
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-        $tasksArray = array();
-        foreach ($tasks as $task) {
-            $tasksArray[] = array(
-                "id" => $task->getId(),
-                "nom" => $task->getNom(),
-                "categorie" => $task->getCategorie(),
-                "dateCreation" => $task->getDateCreation()->format("d.m.Y"),
-                "dateEcheance" => $task->getDateEcheance() ? $task->getDateEcheance()->format("d.m.Y") : null,
-                "priorite" => $task->getPriorite(),
-                "utilisateurOrigine" => $task->getUtilisateurOrigine()
-            );
+            $cardManager = new CardManager();
+            $tasks = $cardManager->getAllTasks();
+
+            $tasksArray = array();
+            foreach ($tasks as $task) {
+                $tasksArray[] = array(
+                    "id" => $task->getId(),
+                    "nom" => $task->getNom(),
+                    "categorie" => $task->getCategorie(),
+                    "dateCreation" => $task->getDateCreation()->format("d.m.Y"),
+                    "dateEcheance" => $task->getDateEcheance() ? $task->getDateEcheance()->format("d.m.Y") : null,
+                    "priorite" => $task->getPriorite(),
+                    "utilisateurOrigine" => $task->getUtilisateurOrigine()
+                );
+            }
+            echo json_encode($tasksArray);
         }
-
-        echo json_encode($tasksArray);
         break;
 
     case "login":
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
             // Vérifier que les identifiants sont bien fournis
             if (
                 !isset($_POST['login']) || !isset($_POST['password']) ||
@@ -71,40 +74,53 @@ switch ($action) {
 
     case "createUser":
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Vérifier que les données sont bien fournis
-            if (
-                !isset($_POST['name']) || !isset($_POST['fullname']) || !isset($_POST['login']) || !isset($_POST['password']) ||
-                empty($_POST['name']) || empty($_POST['fullname'] || empty($_POST['login']) || empty($_POST['password']))
-            ) {
-                echo json_encode(array("result" => false, "error" => "Un ou plusieurs champs ne sont pas renseignés."));
-                break;
-            }
-
-            // Récupérer les identifiants envoyés en POST
-            $name = $_POST['name'];
-            $fullname = $_POST['fullname'];
-            $login = $_POST['login'];
-            $password = $_POST['password'];
 
             $userManager = new UserManager();
-            if ($userManager->newUser($name, $fullname, $login, $password)) {
-                echo json_encode(array("result" => true));
+            if ($userManager->isLogged()) {
+
+                // Vérifier que les données sont bien fournis
+                if (
+                    !isset($_POST['name']) || !isset($_POST['fullname']) || !isset($_POST['login']) || !isset($_POST['password']) ||
+                    empty($_POST['name']) || empty($_POST['fullname'] || empty($_POST['login']) || empty($_POST['password']))
+                ) {
+                    echo json_encode(array("result" => false, "error" => "Un ou plusieurs champs ne sont pas renseignés."));
+                    break;
+                }
+
+                // Récupérer les identifiants envoyés en POST
+                $name = $_POST['name'];
+                $fullname = $_POST['fullname'];
+                $login = $_POST['login'];
+                $password = $_POST['password'];
+
+                $userManager = new UserManager();
+                if ($userManager->newUser($name, $fullname, $login, $password)) {
+                    echo json_encode(array("result" => true));
+                } else {
+                    echo json_encode(array("result" => false, "error" => "Vous n'êtes pas connecté OU un utilisateur existant contient déjà ce login."));
+                }
             } else {
-                echo json_encode(array("result" => false, "error" => "Vous n'êtes pas connecté OU un utilisateur existant contient déjà ce login."));
+                // Renvoyer un code HTTP 401 Unauthorized et un message JSON
+                header('HTTP/1.1 401 Unauthorized');
+                header('Content-Type: application/json; charset=UTF-8');
+                echo json_encode(array("result" => false, "error" => "Unauthorized"));
             }
         }
         break;
 
-        case "isLogged":
-            if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                $userManager = new UserManager();
-                if ($userManager->isLogged()){
-                    echo json_encode(array("result"=> true));
-                } else {
-                    echo json_encode(array("result"=> false));
-                }
+    case "isLogged":
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $userManager = new UserManager();
+            if ($userManager->isLogged()) {
+                echo json_encode(array("result" => true));
+            } else {
+                // Renvoyer un code HTTP 401 Unauthorized et un message JSON
+                header('HTTP/1.1 401 Unauthorized');
+                header('Content-Type: application/json; charset=UTF-8');
+                echo json_encode(array("result" => false, "error" => "Unauthorized"));
             }
-            break;
+        }
+        break;
 
     default:
         echo json_encode(array("error" => "Action non spécifiée ou inconnue"));

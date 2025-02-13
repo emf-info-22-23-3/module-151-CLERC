@@ -1,0 +1,26 @@
+.my-nav-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f8f8;
+
+    /* Toujours visible en haut même au scroll */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+}
+
+/* Style du lien "Connexion" */
+.my-nav-link {
+    margin: 0 10px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #4b6cc7;
+}
+
+.my-nav-link:hover {
+    text-decoration: underline;
+}

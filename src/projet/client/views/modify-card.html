@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier la tâche</title>
+
+    <!-- ================= CSS ================= -->
+    <link rel="stylesheet" href="../stylesheets/card.css">
+    <link rel="stylesheet" href="../stylesheets/navbar.css">
+
+    <!-- ================= WEBSITE LOGO ================= -->
+    <link rel="icon" href="../assets/images/logo.png">
+</head>
+
+<body>
+
+    <nav class="my-nav-container">
+        <a href="./user-view.html" class="my-nav-link">Annuler</a>
+    </nav>
+
+    <div class="container">
+        <div class="forms">
+            <!-- Formulaire de modification -->
+            <div class="form-container">
+                <h2>Modifier la tâche</h2>
+                <form id="updateTaskForm">
+                    <!-- Nom et Priorité, tous deux requis (indiqués par *) -->
+                    <label for="taskName">Nom <span style="color:red">*</span></label>
+                    <input type="text" name="taskName" id="taskName" placeholder="Nom" required>
+
+                    <label for="priority">Priorité <span style="color:red">*</span></label>
+                    <input type="text" name="priority" id="priority" placeholder="Priorité" required>
+
+                    <!-- Date d’échéance -->
+                    <label for="dueDate">Date d'échéance&nbsp;?</label>
+                    <input type="date" name="dueDate" id="dueDate">
+
+                    <!-- Nouveau commentaire -->
+                    <label for="newComment">Nouveau commentaire&nbsp;?</label>
+                    <textarea name="newComment" id="newComment" placeholder="Entrez un commentaire"></textarea>
+
+                    <!-- Bouton d'application -->
+                    <button type="submit">Modifier</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

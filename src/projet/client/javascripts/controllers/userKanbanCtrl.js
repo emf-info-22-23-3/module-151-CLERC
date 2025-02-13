@@ -62,42 +62,47 @@ function loadTasksSuccess(tasks) {
  * Callback en cas d'erreur lors du chargement des tâches.
  */
 function loadTasksError(request, status, error) {
-  alert("Erreur lors du chargement des tâches : " + error);
+  if (request.status === 401) {
+    alert("Erreur 401: Vous devez être connecté pour accéder aux informations de cette page.");
+  } else {
+    alert("Erreur lors du chargement des tâches : " + error);
+  }
+  window.location.href = "../index.html";
 }
 
-/**
- * Fonction d'initialisation à exécuter lorsque la page est chargée.
- */
-$(document).ready(function () {
-  isLogged(function (response) {
-    if (response.result === true) { // Vérifier si l'utilisateur est connecté
+function isLoggedSuccess(response) {
+  if (response.result === true) {
+    // L'utilisateur est connecté, afficher le contenu et charger les tâches
+    $("body").show();
+    chargerTasks(loadTasksSuccess, loadTasksError);
 
-      chargerTasks(loadTasksSuccess, loadTasksError);
-      $("body").show(); // Afficher la page
-
-      $("a.login-link").filter(function () {
-        return $(this).text().trim() === "Déconnexion";
-      }).on("click", function (e) {
-        e.preventDefault(); // Empêcher le comportement par défaut (href="./visitor-view.html" de l'html)
-        logoutUser(
-          function (response) {
-            if (response.result) {
-              window.location.href = "./visitor-view.html";
-            } else {
-              alert("Erreur lors de la déconnexion : " + (response.error || ""));
-            }
-          },
-          function (jqXHR, textStatus, errorThrown) {
-            alert("Erreur lors de la déconnexion : " + errorThrown);
+    // Attacher le gestionnaire pour le lien "Déconnexion"
+    $("a.login-link").filter(function () {
+      return $(this).text().trim() === "Déconnexion";
+    }).on("click", function (e) {
+      e.preventDefault();
+      logoutUser(
+        function (response) {
+          if (response.result) {
+            window.location.href = "./visitor-view.html";
+          } else {
+            alert("Erreur lors de la déconnexion : " + (response.error || ""));
           }
-        );
-      });
-    } else {
-      // Si l'utilisateur n'est pas connecté, le rediriger vers la page de connexion
-      alert("Cette page est uniquement pour les utilisateurs connectés.\nRetour vers la page d'accueil.");
-      window.location.href = "../index.html";
-    }
-  }, function (jqXHR, textStatus, errorThrown) {
-    alert("Erreur lors de la vérification de la session : " + errorThrown);
-  });
+        }
+      );
+    });
+  }
+}
+
+function isLoggedError(request, status, error) {
+  if (request.status === 401) {
+    alert("Erreur 401: Vous devez être connecté pour accéder à cette page.");
+  } else {
+    alert("Erreur lors de la vérification de la session : " + error);
+  }
+  window.location.href = "../index.html";
+}
+
+$(document).ready(function () {
+  isLogged(isLoggedSuccess, isLoggedError);
 });

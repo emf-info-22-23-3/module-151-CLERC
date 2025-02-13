@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    $("body").css("display", "flex");
+
     $("#loginForm").on("submit", function (e) {
         e.preventDefault(); // Empêcher la soumission classique du formulaire
 
@@ -19,3 +21,6 @@ $(document).ready(function () {
         });
     });
 });
+
+
+// faire méthodes success error
