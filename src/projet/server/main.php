@@ -97,7 +97,7 @@ switch ($action) {
                 if ($userManager->newUser($name, $fullname, $login, $password)) {
                     echo json_encode(array("result" => true));
                 } else {
-                    echo json_encode(array("result" => false, "error" => "Vous n'êtes pas connecté OU un utilisateur existant contient déjà ce login."));
+                    echo json_encode(array("result" => false, "error" => "La base de données contient déjà un utilisateur avec ce login."));
                 }
             } else {
                 // Renvoyer un code HTTP 401 Unauthorized et un message JSON
