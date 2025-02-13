@@ -95,6 +95,17 @@ switch ($action) {
         }
         break;
 
+        case "isLogged":
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                $userManager = new UserManager();
+                if ($userManager->isLogged()){
+                    echo json_encode(array("result"=> true));
+                } else {
+                    echo json_encode(array("result"=> false));
+                }
+            }
+            break;
+
     default:
         echo json_encode(array("error" => "Action non spécifiée ou inconnue"));
         break;

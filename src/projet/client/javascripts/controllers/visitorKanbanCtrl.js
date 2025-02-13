@@ -64,13 +64,12 @@ function loadTasksSuccess(tasks) {
 function loadTasksError(request, status, error) {
   alert("Erreur lors du chargement des tâches : " + error);
 }
-/**
- * Méthode "start" appelée après le chargement complet de la page
- */
+
 /**
  * Fonction d'initialisation à exécuter lorsque la page est chargée.
  */
 $(document).ready(function () {
   // Appel du service pour charger les tâches
   chargerTasks(loadTasksSuccess, loadTasksError);
+  $("body").show(); // Afficher la page
 });

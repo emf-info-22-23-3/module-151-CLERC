@@ -56,14 +56,17 @@ class UserManager
      */
     public function logout()
     {
-        $isLogged = $this->sessionManager->isLogged();
 
-        if ($isLogged) {
+        if ($this->isLogged()) {
             $this->sessionManager->logout();
             return true;
         }
 
         return false;
+    }
+
+    public function isLogged(){
+        return $this->sessionManager->isLogged();
     }
 
     /**

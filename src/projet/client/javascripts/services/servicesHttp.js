@@ -76,3 +76,19 @@ function createUser(name, fullname, login, password, successCallback, errorCallb
         error: errorCallback
     });
 }
+
+/**
+ * Fonction permettant de vérifier si l'utilisateur est connecté.
+ * @param {function} successCallback - Fonction appelée en cas de succès.
+ * @param {function} errorCallback - Fonction appelée en cas d'erreur.
+ */
+function isLogged(successCallback, errorCallback) {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: BASE_URL,
+        data: { action: "isLogged" },
+        success: successCallback,
+        error: errorCallback
+    });
+}

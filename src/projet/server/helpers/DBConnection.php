@@ -14,6 +14,7 @@ class DBConnection
 
     private static $_instance = null;
     private $pdo;
+    private $config;
 
     /**
      * Méthode qui crée l'unique instance de la classe
@@ -35,8 +36,17 @@ class DBConnection
      */
     private function __construct()
     {
+        $this->config = new DBConfig();
+
         try {
-            $this->pdo = new PDO(DB_TYPE . ':host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS, array(
+
+            $type = $this->config->getType();
+            $host = $this->config->getHost();
+            $name = $this->config->getName();
+            $user = $this->config->getUser();
+            $pass = $this->config->getPass();
+
+            $this->pdo = new PDO($type . ':host=' . $host . ';dbname=' . $name, $user, $pass, array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
                 PDO::ATTR_PERSISTENT => true
             ));

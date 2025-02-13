@@ -1,5 +1,6 @@
 body {
     font-family: Arial, sans-serif;
+    display: none;
 }
 
 .kanban-board {
@@ -34,7 +35,7 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.login-container{
+.login-container {
     padding-right: 10px;
     display: flex;
     justify-content: right;
