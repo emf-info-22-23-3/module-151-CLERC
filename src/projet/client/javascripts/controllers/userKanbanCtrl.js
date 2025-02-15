@@ -76,20 +76,23 @@ function isLoggedSuccess(response) {
     $("body").show();
     chargerTasks(loadTasksSuccess, loadTasksError);
 
-    // Attacher le gestionnaire pour le lien "Déconnexion"
-    $("a.login-link").filter(function () {
-      return $(this).text().trim() === "Déconnexion";
-    }).on("click", function (e) {
+    // Afficher le paragraphe contenant le login de l'utilisateur
+    var login = sessionStorage.getItem('login');
+    if (login) {
+      $("#connected-as").text("Connecté en tant que " + login);
+    }
+
+    // Attacher le code pour le lien "Déconnexion"
+    $('id-deconnection').on("click", function (e) {
       e.preventDefault();
-      logoutUser(
-        function (response) {
-          if (response.result) {
-            window.location.href = "./visitor-view.html";
-          } else {
-            alert("Erreur lors de la déconnexion : " + (response.error || ""));
-          }
+      logoutUser(function (response) {
+        if (response.result) {
+          // Enlever le login dans le sessionStorage
+          sessionStorage.removeItem('login');
+        } else {
+          alert("Erreur lors de la déconnexion : " + (response.error || ""));
         }
-      );
+      });
     });
   }
 }

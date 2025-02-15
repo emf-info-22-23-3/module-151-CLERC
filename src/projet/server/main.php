@@ -54,7 +54,7 @@ switch ($action) {
             // Utiliser UserManager pour la connexion, qui appellera SessionManager en interne
             $userManager = new UserManager();
             if ($userManager->login($login, $password)) {
-                echo json_encode(array("result" => true));
+                echo json_encode(array("result" => true, "login" => $login));
             } else {
                 echo json_encode(array("result" => false, "error" => "Identifiants incorrects"));
             }

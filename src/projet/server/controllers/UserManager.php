@@ -45,7 +45,7 @@ class UserManager
             $this->sessionManager->login($user);
             return true;
         }
-        
+
         return false;
     }
 
@@ -65,7 +65,8 @@ class UserManager
         return false;
     }
 
-    public function isLogged(){
+    public function isLogged()
+    {
         return $this->sessionManager->isLogged();
     }
 

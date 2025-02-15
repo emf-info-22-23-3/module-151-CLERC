@@ -1,3 +1,19 @@
+function loginSuccess(response) {
+    if (response.result) {
+        // Stocker le login dans le sessionStorage
+        sessionStorage.setItem('login', response.login);
+        window.location.href = "./views/user-view.html";
+    } else {
+        alert("Identifiants incorrects !");
+        window.location.href = ""; // Refresh la page
+    }
+}
+
+function loginError(request, status, error) {
+    alert("Erreur lors de la connexion : " + error);
+    window.location.href = ""; // Refresh la page
+}
+
 $(document).ready(function () {
     $("body").css("display", "flex");
 
@@ -8,19 +24,6 @@ $(document).ready(function () {
         var loginVal = $(this).find("input[name='login']").val();
         var passwordVal = $(this).find("input[name='password']").val();
 
-        // Appeler la fonction du service pour se connecter
-        loginUser(loginVal, passwordVal, function (response) {
-            if (response.result) {
-                // Connexion réussie : redirection vers la page utilisateur
-                window.location.href = "./views/user-view.html";
-            } else {
-                alert("Identifiants incorrects !");
-            }
-        }, function (jqXHR, textStatus, errorThrown) {
-            alert("Erreur lors de la connexion : " + errorThrown);
-        });
+        loginUser(loginVal, passwordVal, loginSuccess, loginError);
     });
 });
-
-
-// faire méthodes success error

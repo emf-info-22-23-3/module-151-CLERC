@@ -20,18 +20,19 @@
     <!-- ================= WEBSITE LOGO ================= -->
     <link rel="icon" href="../assets/images/logo.png">
 
-    <title>Gestionnaire de tâches - utilisateur</title>
+    <title>Gestionnaire de tâches - Utilisateur</title>
 </head>
 
 <body>
 
     <nav class="my-nav-container">
-        <div><a href="./visitor-view.html" class="my-nav-link">Déconnexion</a></div>
-        <div><a href="./add-user.html" class="my-nav-link">Ajouter un utilisateur</a></div>
-        <div><a href="./add-card.html" class="my-nav-link">Ajouter une tâche</a></div>
+        <div><a href="./visitor-view.html" class="my-nav-link" id="nav-deconnection">Déconnexion</a></div>
+        <div><a href="./add-user.html" class="my-nav-link" id="nav-add-user">Ajouter un utilisateur</a></div>
+        <div><a href="./add-card.html" class="my-nav-link" id="nav-add-task">Ajouter une tâche</a></div>
     </nav>
 
     <div class="container py-5">
+        <p class="text-center" id="connected-as"></p>
         <h1 class="text-center pt-4 mb-4">Gestionnaire de tâches <span class="badge text-bg-dark">KANBAN</span></h1>
         <div class="kanban-board">
 

@@ -13,7 +13,6 @@ function createUserError(jqXHR, textStatus, errorThrown) {
     } else {
         alert("Erreur lors de la création de l'utilisateur : " + errorThrown);
     }
-    window.location.href = "../index.html";
 }
 
 function isLoggedSuccess(response) {
