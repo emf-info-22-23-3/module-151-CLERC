@@ -51,6 +51,12 @@ switch ($action) {
             $login = $_POST['login'];
             $password = $_POST['password'];
 
+            // Vérifier que $login ne contienne que des lettres sans espaces
+            if (!preg_match('/^[A-Za-z]+$/', $login)) {
+                echo json_encode(array("result" => false, "error" => "Le champ login ne doit contenir que des lettres sans espaces."));
+                break;
+            }
+
             // Utiliser UserManager pour la connexion, qui appellera SessionManager en interne
             $userManager = new UserManager();
             if ($userManager->login($login, $password)) {
@@ -92,6 +98,12 @@ switch ($action) {
                 $fullname = $_POST['fullname'];
                 $login = $_POST['login'];
                 $password = $_POST['password'];
+
+                // Vérifier que $login, $name et $fullname ne contiennent que des lettres sans espaces
+                if (!preg_match('/^[A-Za-z]+$/', $login) || !preg_match('/^[A-Za-z]+$/', $name) || !preg_match('/^[A-Za-z]+$/', $fullname)) {
+                    echo json_encode(array("result" => false, "error" => "Les champs login, nom et prénom ne doivent contenir que des lettres sans espaces."));
+                    break;
+                }
 
                 $userManager = new UserManager();
                 if ($userManager->newUser($name, $fullname, $login, $password)) {

@@ -5,7 +5,6 @@
     box-sizing: border-box;
 }
 
-/* Style global du body */
 body {
     display: none;
     font-family: Arial, sans-serif;
@@ -57,7 +56,6 @@ input {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 14px;
-    transition: border-color 0.3s ease;
 }
 
 input:focus {
@@ -65,7 +63,6 @@ input:focus {
     outline: none;
 }
 
-/* Styles du bouton */
 button {
     width: 100%;
     padding: 12px;
@@ -83,44 +80,15 @@ button:hover {
     background-color: #45a049;
 }
 
-/* Texte pour le changement de formulaire */
-.switch-form {
-    text-align: center;
-    margin-top: 25px;
-    font-size: 14px;
-    color: #666;
-}
-
-.switch-form span {
-    color: #4CAF50;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.switch-form span:hover {
-    text-decoration: underline;
-}
-
-/* Positionnement initial des formulaires */
-.login-container {
-    left: 0;
-    width: 50%;
-}
-
 .register-container {
     left: 50%;
     width: 50%;
 }
 
-/* Animation lors du passage en mode inscription */
-.container.register-mode .forms {
-    transform: translateX(-50%);
-}
-
 /* Positionne le lien de visiteur tout en bas du container */
 .visitor-link {
     position: absolute;
-    bottom: 10px;  /* Ajuste cette valeur selon l'espacement souhaité */
+    bottom: 10px;
     left: 0;
     width: 50%;
     text-align: center;
@@ -128,10 +96,10 @@ button:hover {
 
 /* Style du lien : bleu, gras, et texte plus petit */
 .visitor-link a {
-    color: blue;
+    color: #2a7ef8;
     font-weight: bold;
     text-decoration: none;
-    font-size: 0.8rem; /* Rend le texte plus petit */
+    font-size: 0.8rem;
 }
 
 .visitor-link a:hover {

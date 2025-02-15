@@ -26,9 +26,9 @@
             <div class="form-container register-container">
                 <h2>Inscription</h2>
                 <form id="registerForm">
-                    <input type="text" name="name" placeholder="Nom" required>
-                    <input type="text" name="fullname" placeholder="Prénom" required>
-                    <input type="text" name="login" placeholder="Login" required>
+                    <input type="text" name="name" placeholder="Nom" pattern="[A-Za-z]+" required>
+                    <input type="text" name="fullname" placeholder="Prénom" pattern="[A-Za-z]+" required>
+                    <input type="text" name="login" placeholder="Login" pattern="[A-Za-z]+" required>
                     <input type="password" name="password" placeholder="Mot de passe" required>
                     <button type="submit">S'inscrire</button>
                 </form>
@@ -39,7 +39,7 @@
     <!-- ================= SCRIPTS ================= -->
     <script src="../javascripts/helpers/jquery-1.10.2.min.js"></script>
     <script src="../javascripts/services/servicesHttp.js"></script>
-    <script src="../javascripts/controllers/registerCtrl.js"></script>
+    <script src="../javascripts/controllers/addUserCtrl.js"></script>
 </body>
 
 </html>

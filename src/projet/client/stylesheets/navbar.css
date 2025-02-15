@@ -4,23 +4,41 @@
     align-items: center;
     padding: 10px;
     background-color: #f8f8f8;
-
-    /* Toujours visible en haut même au scroll */
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
 
+    /* Toujours visible en haut même lors de scroll */
+    position: fixed;
 }
 
-/* Style du lien "Connexion" */
 .my-nav-link {
     margin: 0 10px;
     font-weight: bold;
     text-decoration: none;
     color: #4b6cc7;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.my-nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background-color: #4b6cc7;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
 }
 
 .my-nav-link:hover {
-    text-decoration: underline;
+    color: #24d674;
+}
+
+.my-nav-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
 }

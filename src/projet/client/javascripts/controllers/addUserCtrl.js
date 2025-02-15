@@ -20,6 +20,18 @@ function isLoggedSuccess(response) {
         // L'utilisateur est connecté, afficher le contenu de la page
         $("body").css("display", "flex");
 
+        // Message personnalisé lorsque le format n'est pas respecté pour le login, le nom et le prénom
+        $("input[name='login'], input[name='name'], input[name='fullname']")
+            .on("invalid", function () {
+                if (!this.validity.valid) {
+                    this.setCustomValidity("Les champs login, nom et prénom doivent uniquement contenir des lettres sans espaces");
+                }
+            })
+            // Reset le message personnalisé lorsque l'utilisateur modifie les champs respectifs
+            .on("input", function () {
+                this.setCustomValidity("");
+            });
+
         $("#registerForm").on("submit", function (e) {
             e.preventDefault(); // Empêcher la soumission classique du formulaire
 

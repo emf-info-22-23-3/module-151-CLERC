@@ -79,7 +79,7 @@ function isLoggedSuccess(response) {
     // Afficher le paragraphe contenant le login de l'utilisateur
     var login = sessionStorage.getItem('login');
     if (login) {
-      $("#connected-as").text("Connecté en tant que " + login);
+      $("#connected-as").html("Connecté avec le login " + login);
     }
 
     // Attacher le code pour le lien "Déconnexion"

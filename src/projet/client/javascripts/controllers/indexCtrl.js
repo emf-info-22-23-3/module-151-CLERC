@@ -17,6 +17,18 @@ function loginError(request, status, error) {
 $(document).ready(function () {
     $("body").css("display", "flex");
 
+    // Message personnalisé lorsque le format n'est pas respecté pour le login
+    $("input[name='login']")
+        .on("invalid", function () {
+            if (!this.validity.valid) {
+                this.setCustomValidity("Votre login doit uniquement contenir des lettres sans espaces");
+            }
+        })
+        // Reset le message personnalisé lorsque l'utilisateur modifie le champ
+        .on("input", function () {
+            this.setCustomValidity("");
+        });
+
     $("#loginForm").on("submit", function (e) {
         e.preventDefault(); // Empêcher la soumission classique du formulaire
 
