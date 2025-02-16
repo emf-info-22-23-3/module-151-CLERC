@@ -48,6 +48,16 @@ function loadTasksSuccess(tasks) {
                   <p><strong>Date d'échéance:</strong> ${task.dateEcheance ? task.dateEcheance : "-"}</p>
                   <p><strong>Priorité:</strong> ${task.priorite}</p>
                   <p><strong>Créée par:</strong> ${task.utilisateurOrigine}</p>
+                  <div class="d-flex justify-content-between task-actions">
+            <a href="./modify-card.html" class="modify-link"
+               data-task-id="${task.id}"
+               data-task-name="${task.nom}"
+               data-priority="${task.priorite}"
+               data-due-date="${task.dateEcheance ? task.dateEcheance : ''}">
+              Modifier
+            </a>
+            <a href="#" class="delete-link">Supprimer</a>
+          </div>
                 </div>
               </div>
             </div>
@@ -55,6 +65,20 @@ function loadTasksSuccess(tasks) {
       // Ajoute l'élément dans l'accordéon correspondant
       $("#" + accordionId).append(itemHtml);
     }
+  });
+
+  $(".modify-link").on("click", function (e) {
+    // Récupérer les informations stockées dans les attributs data du lien cliqué
+    let taskId = $(this).data("task-id");
+    let taskName = $(this).data("task-name");
+    let priority = $(this).data("priority");
+    let dueDate = $(this).data("due-date");
+
+    // Stocker ces informations dans le localStorage
+    localStorage.setItem("taskId", taskId);
+    localStorage.setItem("taskName", taskName);
+    localStorage.setItem("priority", priority);
+    localStorage.setItem("dueDate", dueDate);
   });
 }
 
@@ -83,7 +107,7 @@ function isLoggedSuccess(response) {
     }
 
     // Attacher le code pour le lien "Déconnexion"
-    $('id-deconnection').on("click", function (e) {
+    $('#nav-deconnection').on("click", function (e) {
       e.preventDefault();
       logoutUser(function (response) {
         if (response.result) {

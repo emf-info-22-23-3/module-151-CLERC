@@ -1,6 +1,6 @@
 <?php
 
-// Démarrer la session s'il n'est pas déjà démarré
+// Quand même vérifier si une session n'existe pas déjà afin de ne pas générer d'erreurs ou d'avertissements 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -27,8 +27,11 @@ class SessionManager
      */
     public function logout()
     {
-        unset($_SESSION['logged']);
-        unset($_SESSION['user']);
+        // Vider le tableau des variables de la session
+        $_SESSION = array();
+
+        // Détruire la session
+        session_destroy();
     }
 
     /**

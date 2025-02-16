@@ -34,3 +34,20 @@ body {
     margin-bottom: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+#modify-link,
+#delete-link {
+    text-decoration: none;
+    color: rgb(86, 46, 231);
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+#modify-link:hover {
+    color: #00b7ff;
+    transform: scale(1.1);
+}
+
+#delete-link:hover {
+    color: #ff3c00;
+    transform: scale(1.1);
+}

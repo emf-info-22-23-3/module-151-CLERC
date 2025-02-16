@@ -1,7 +1,5 @@
 <?php
 
-include_once('DBConfig.php');
-
 /**
  * Classe connexion
  *
