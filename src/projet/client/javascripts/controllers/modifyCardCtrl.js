@@ -1,3 +1,7 @@
+/*
+ * @author Lexkalli
+ */
+
 $(document).ready(function () {
     // Récupérer les valeurs stockées dans le localStorage
     let id = localStorage.getItem("taskId");

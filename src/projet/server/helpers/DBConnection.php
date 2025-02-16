@@ -1,10 +1,6 @@
 <?php
-
 /**
- * Classe connexion
- *
- * Cette classe de gérer l'accès à la base de données.
- *
+ * @author Lexkalli
  */
 
 class DBConnection

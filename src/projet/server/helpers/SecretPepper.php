@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author Lexkalli
+ */
 
 class SecretPepper
 {

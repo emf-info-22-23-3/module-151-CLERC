@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Lexkalli
+ */
+
 class User
 {
     private $id;

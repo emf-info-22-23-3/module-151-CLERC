@@ -1,3 +1,7 @@
+/*
+ * @author Lexkalli
+ */
+
 function loginSuccess(response) {
     if (response.result) {
         // Stocker le login dans le sessionStorage

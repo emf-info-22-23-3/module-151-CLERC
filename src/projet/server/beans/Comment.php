@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Lexkalli
+ */
+
 class Comment
 {
     private string $contenu;

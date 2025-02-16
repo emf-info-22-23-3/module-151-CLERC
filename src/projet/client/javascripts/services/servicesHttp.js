@@ -1,5 +1,5 @@
 /*
- * Couche de services HTTP pour charger les tâches.
+ * @author Lexkalli
  */
 
 var BASE_URL = "http://localhost:8080/projet/server/main.php";

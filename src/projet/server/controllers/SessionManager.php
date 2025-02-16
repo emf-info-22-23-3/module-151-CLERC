@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author Lexkalli
+ */
 
 // Quand même vérifier si une session n'existe pas déjà afin de ne pas générer d'erreurs ou d'avertissements 
 if (session_status() === PHP_SESSION_NONE) {

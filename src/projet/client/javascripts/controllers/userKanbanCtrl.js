@@ -1,8 +1,5 @@
 /*
- * Contrôleur de la vue "visitor-view.html"
- *
- * @author Olivier Neuhaus
- * @version 1.0 / 20-SEP-2013
+ * @author Lexkalli
  */
 
 /**

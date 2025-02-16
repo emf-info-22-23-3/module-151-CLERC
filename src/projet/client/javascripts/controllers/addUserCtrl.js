@@ -1,3 +1,7 @@
+/*
+ * @author Lexkalli
+ */
+
 function createUserSuccess(response) {
     if (response.result) {
         alert("Nouvel utilisateur ajouté");
