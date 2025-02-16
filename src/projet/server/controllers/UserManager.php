@@ -22,8 +22,8 @@ class UserManager
     {
         $user = $this->dbUserManager->getUserByLogin($login);
         if ($user) {
-
-            if (password_verify($password, $user->getPassword())) {
+            $pepper = SecretPepper::getSecretPepper();
+            if (password_verify($pepper . $password, $user->getPassword())) {
                 return $user;
             }
         }

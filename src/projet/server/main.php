@@ -8,6 +8,7 @@ require_once("./helpers/DBConnection.php");
 require_once("./helpers/DBCardManager.php");
 require_once("./helpers/DBUserManager.php");
 require_once("./controllers/SessionManager.php");
+include_once("./helpers/SecretPepper.php");
 
 // Vérifier que le paramètre 'action' soit là
 $action = isset($_GET['action']) ? $_GET['action'] : "";

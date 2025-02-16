@@ -39,7 +39,8 @@ class DBUserManager
         }
 
         // Hasher le mot de passe pour le stocker de manière sécurisée
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $pepper = SecretPepper::getSecretPepper();
+        $hashedPassword = password_hash($pepper . $password, PASSWORD_DEFAULT);
 
         // Préparer et exécuter la requête d'insertion
         $sql = "INSERT INTO t_utilisateur (nom, prenom, login, password) VALUES (?, ?, ?, ?)";
