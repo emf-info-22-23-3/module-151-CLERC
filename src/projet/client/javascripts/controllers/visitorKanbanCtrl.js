@@ -59,7 +59,7 @@ function loadTasksSuccess(tasks) {
  * Callback en cas d'erreur lors du chargement des tâches.
  */
 function loadTasksError(request, status, error) {
-  alert("Erreur lors du chargement des tâches : " + error);
+  alert("Erreur lors du chargement des tâches : " + error || "Connexion à la BD impossible.");
 }
 
 /**
