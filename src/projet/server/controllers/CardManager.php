@@ -41,7 +41,7 @@ class CardManager
     public function addTask($taskName, $priority, $dueDate, $comment, $userId)
     {
         $categorie = "todo";
-        $isAdded = $this->dbCardManager->addTask($taskName, $dueDate, $categorie, $priority);
+        $isAdded = $this->dbCardManager->addTask($taskName, $dueDate, $categorie, $priority, $userId);
 
         $isCommentAdded = false;
 
@@ -52,6 +52,17 @@ class CardManager
 
         // Retourne true si l'update ou l'ajout du commentaire a réussi
         return $isAdded || $isCommentAdded;
+    }
+
+    public function deleteTask($taskName)
+    {
+        // Supprimer tous les commentaires associés à la tâche
+        $this->dbCardManager->deleteComments($taskName);
+
+        // Supprimer la tâche elle-même
+        $isTaskDeleted = $this->dbCardManager->deleteTask($taskName);
+
+        return $isTaskDeleted;
     }
 
 }

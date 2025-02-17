@@ -247,6 +247,30 @@ switch ($action) {
         }
         break;
 
+    case "deleteTask":
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $userManager = new UserManager();
+            if ($userManager->isLogged()) {
+
+                if (!isset($_POST['taskName']) || empty(trim($_POST['taskName']))) {
+                    echo json_encode(array("result" => false, "error" => "Le nom de la tâche est requis."));
+                    break;
+                }
+
+                $taskName = trim($_POST['taskName']);
+
+                $cardManager = new CardManager();
+                $isDeleted = $cardManager->deleteTask($taskName);
+
+                if ($isDeleted) {
+                    echo json_encode(array('result' => true));
+                } else {
+                    echo json_encode(array("result" => false, "error" => "Erreur lors de la suppression de la tâche."));
+                }
+            }
+        }
+        break;
+
     default:
         echo json_encode(array("error" => "Action non spécifiée ou inconnue"));
         break;

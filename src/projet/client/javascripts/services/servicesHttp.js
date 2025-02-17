@@ -137,3 +137,21 @@ function addTask(taskName, priority, dueDate, newComment, successCallback, error
         error: errorCallback
     });
 }
+
+/**
+ * Envoie une requête AJAX pour supprimer une tâche.
+ *
+ * @param {string} taskName - Le nom de la tâche à supprimer.
+ * @param {function} successCallback - Fonction appelée en cas de succès.
+ * @param {function} errorCallback - Fonction appelée en cas d'erreur.
+ */
+function deleteTask(taskName, successCallback, errorCallback) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: BASE_URL + "?action=deleteTask",
+        data: { taskName: taskName },
+        success: successCallback,
+        error: errorCallback
+    });
+}

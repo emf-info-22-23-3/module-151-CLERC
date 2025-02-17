@@ -53,7 +53,11 @@ function loadTasksSuccess(tasks) {
                data-due-date="${task.dateEcheance ? task.dateEcheance : ''}">
               Modifier
             </a>
-            <a href="#" class="delete-link">Supprimer</a>
+            <a href="#" class="delete-link"
+             data-task-id="${task.id}"
+             data-task-name="${task.nom}">
+            Supprimer
+         </a>
           </div>
                 </div>
               </div>
@@ -77,6 +81,14 @@ function loadTasksSuccess(tasks) {
     localStorage.setItem("priority", priority);
     localStorage.setItem("dueDate", dueDate);
   });
+
+  $(".delete-link").on("click", function (e) {
+    e.preventDefault();
+    let taskName = $(this).data("task-name");
+    if (confirm("Voulez-vous vraiment supprimer cette tâche ?")) {
+      deleteTask(taskName, deleteTaskSuccess, deleteTaskError);
+    }
+  });
 }
 
 /**
@@ -89,6 +101,19 @@ function loadTasksError(request, status, error) {
     alert("Erreur lors du chargement des tâches : " + error);
   }
   window.location.href = "../index.html";
+}
+
+function deleteTaskSuccess(response) {
+  if (response.result) {
+    alert("Tâche supprimée avec succès");
+    window.location.reload();
+  } else {
+    alert("Erreur lors de la suppression de la tâche : " + (response.error || ""));
+  }
+}
+
+function deleteTaskError(request, textStatus, error) {
+  alert("Erreur lors de la suppression de la tâche : " + error);
 }
 
 function isLoggedSuccess(response) {
