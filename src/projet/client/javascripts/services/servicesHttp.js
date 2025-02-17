@@ -78,6 +78,8 @@ function createUser(name, fullname, login, password, successCallback, errorCallb
 }
 
 /**
+ * Envoie une requête AJAX pour vérifier si la session est connectée.
+ * 
  * Fonction permettant de vérifier si l'utilisateur est connecté.
  * @param {function} successCallback - Fonction appelée en cas de succès.
  * @param {function} errorCallback - Fonction appelée en cas d'erreur.
@@ -94,7 +96,7 @@ function isLogged(successCallback, errorCallback) {
 }
 
 /**
- * Envoie une requête AJAX pour créer un utilisateur.
+ * Envoie une requête AJAX pour modifier une tâche.
  *
  * @param {string} originalTaskName - L'ancien nom de la tâche (nom actuellement inscrit dans la BD).
  * @param {string} taskName - Le nom de la tâche.
@@ -110,6 +112,27 @@ function modifyTask(originalTaskName, taskName, priority, dueDate, newComment, s
         dataType: "json",
         url: BASE_URL + "?action=updateTask",
         data: { originalTaskName: originalTaskName, taskName: taskName, priority: priority, dueDate: dueDate, newComment: newComment },
+        success: successCallback,
+        error: errorCallback
+    });
+}
+
+/**
+ * Envoie une requête AJAX pour créer une tâche.
+ *
+ * @param {string} taskName - Le nom de la tâche.
+ * @param {string} priority - La priorité de la tâche.
+ * @param {string} dueDate - La date d'échéance de la tâche (peut être null).
+ * @param {string} newComment - Le nouveau commentaire (peut être null).
+ * @param {function} successCallback - Fonction appelée en cas de succès.
+ * @param {function} errorCallback - Fonction appelée en cas d'erreur.
+ */
+function addTask(taskName, priority, dueDate, newComment, successCallback, errorCallback) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: BASE_URL + "?action=addTask",
+        data: { taskName: taskName, priority: priority, dueDate: dueDate, newComment: newComment },
         success: successCallback,
         error: errorCallback
     });

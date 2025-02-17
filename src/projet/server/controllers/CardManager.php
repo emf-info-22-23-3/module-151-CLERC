@@ -37,5 +37,22 @@ class CardManager
         // Retourne true si l'update ou l'ajout du commentaire a réussi
         return $isUpdated || $isCommentAdded;
     }
+
+    public function addTask($taskName, $priority, $dueDate, $comment, $userId)
+    {
+        $categorie = "todo";
+        $isAdded = $this->dbCardManager->addTask($taskName, $dueDate, $categorie, $priority);
+
+        $isCommentAdded = false;
+
+        // Si un objet Comment est fourni, tenter de l'ajouter
+        if ($comment instanceof Comment) {
+            $isCommentAdded = $this->dbCardManager->addComment($taskName, $comment, $userId);
+        }
+
+        // Retourne true si l'update ou l'ajout du commentaire a réussi
+        return $isAdded || $isCommentAdded;
+    }
+
 }
 ?>

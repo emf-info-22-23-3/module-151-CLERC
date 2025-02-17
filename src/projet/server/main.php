@@ -167,12 +167,16 @@ switch ($action) {
                 $newCommentText = isset($_POST['newComment']) ? $_POST['newComment'] : null;
                 $originalTaskName = $_POST["originalTaskName"];
 
+                $allowedPriorities = array("basse", "moyenne", "haute", "urgente");
+                if (!in_array(strtolower($priority), $allowedPriorities)) {
+                    echo json_encode(array("result" => false, "error" => "La priorité doit être 'basse', 'moyenne', 'haute' ou 'urgente'."));
+                    break;
+                }
 
                 if ($newCommentText === null) {
                     echo json_encode(array("error" => "Comment null"));
                     break;
                 }
-
 
                 $comment = null;
                 if (!empty($newCommentText)) {
@@ -188,6 +192,56 @@ switch ($action) {
                     echo json_encode(array('result' => true));
                 } else {
                     echo json_encode(array("error" => "Erreur lors de la modification de la tâche. Avez-vous modifié une donnée ?"));
+                }
+            }
+        }
+        break;
+
+    case "addTask":
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $userManager = new UserManager();
+            if ($userManager->isLogged()) {
+
+                // Vérifier que les données obligatoires sont bien fournis
+                if (
+                    !isset($_POST['taskName']) || !isset($_POST['priority']) ||
+                    empty(trim($_POST['taskName'])) || empty(trim($_POST['priority']))
+                ) {
+                    echo json_encode(array("result" => false, "error" => "Les champs nom et priorité doivent être renseignés."));
+                    break;
+                }
+
+                // Récupérer les données envoyées en POST
+                $taskName = $_POST['taskName'];
+                $priority = $_POST['priority'];
+                $dueDate = isset($_POST['dueDate']) ? $_POST['dueDate'] : null;
+                $newCommentText = isset($_POST['newComment']) ? $_POST['newComment'] : null;
+
+                $allowedPriorities = array("basse", "moyenne", "haute", "urgente");
+                if (!in_array(strtolower($priority), $allowedPriorities)) {
+                    echo json_encode(array("result" => false, "error" => "La priorité doit être 'basse', 'moyenne', 'haute' ou 'urgente'."));
+                    break;
+                }
+
+                if ($newCommentText === null) {
+                    echo json_encode(array("error" => "Comment null"));
+                    break;
+                }
+
+                $comment = null;
+                if (!empty($newCommentText)) {
+                    $author = $userManager->getAuthor();
+                    $comment = new Comment($newCommentText, new DateTime(), $author);
+                }
+
+                $cardManager = new CardManager();
+                $userId = $userManager->getAuthorId();
+                $isAdded = $cardManager->addTask($taskName, $priority, $dueDate, $comment, $userId);
+
+                if ($isAdded) {
+                    echo json_encode(array('result' => true));
+                } else {
+                    echo json_encode(array("error" => "Erreur lors de l'ajout de la tâche."));
                 }
             }
         }

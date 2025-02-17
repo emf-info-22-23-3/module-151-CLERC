@@ -34,7 +34,12 @@
                     <input type="text" name="taskName" id="taskName" placeholder="Nom" required>
 
                     <label for="priority">Priorité <span style="color:red">*</span></label>
-                    <input type="text" name="priority" id="priority" placeholder="Priorité" required>
+                    <select name="priority" id="priority" required>
+                        <option value="basse">basse</option>
+                        <option value="moyenne">moyenne</option>
+                        <option value="haute">haute</option>
+                        <option value="urgente">urgente</option>
+                    </select>
 
                     <!-- Date d’échéance -->
                     <label for="dueDate">Date d'échéance&nbsp;?</label>

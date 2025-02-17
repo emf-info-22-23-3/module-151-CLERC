@@ -22,10 +22,6 @@ body {
     padding: 40px;
 }
 
-.form-container {
-    padding-right: 10px;
-}
-
 /* Titre principal */
 h2 {
     text-align: center;
@@ -43,7 +39,8 @@ label {
 }
 
 /* Champs de saisie */
-input {
+input,
+select  {
     width: 100%;
     padding: 12px;
     margin-bottom: 16px;
@@ -51,9 +48,16 @@ input {
     border-radius: 5px;
     font-size: 14px;
     transition: border-color 0.3s ease;
+    background-color: #fff;
+
+    /* Pour supprimer l'apparence native dans certains navigateurs */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
-input:focus {
+input:focus,
+select:focus {
     border-color: #4CAF50;
     outline: none;
 }
@@ -93,4 +97,8 @@ textarea {
 textarea:focus {
     border-color: #4CAF50;
     outline: none;
+}
+
+input, select, textarea {
+    box-sizing: border-box;
 }

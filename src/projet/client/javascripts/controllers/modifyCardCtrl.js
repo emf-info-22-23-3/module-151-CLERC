@@ -62,7 +62,7 @@ function isLoggedSuccess(response) {
 
                 // Récupérer les valeurs du formulaire
                 var taskNameVal = $(this).find("input[name='taskName']").val();
-                var priorityVal = $(this).find("input[name='priority']").val();
+                var priorityVal = $(this).find("select[name='priority']").val();
                 var dueDateVal = $(this).find("input[name='dueDate']").val();
                 var newCommentVal = $(this).find("textarea[name='newComment']").val();
 

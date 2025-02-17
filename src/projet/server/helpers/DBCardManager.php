@@ -66,6 +66,24 @@ class DBCardManager
     }
 
     /**
+     * Met à jour une tâche identifiée par son nom actuel (originalTaskName).
+     *
+     * @param string $taskName Le nouveau nom de la tâche.
+     * @param string $priority La nouvelle priorité.
+     * @param string|null $dueDate La nouvelle date d'échéance (format "yyyy-MM-dd" ou null).
+     * @return bool true si la mise à jour a réussi, false sinon.
+     */
+    public function addTask($taskName, $dueDate, $categorie, $priority)
+    {
+        $db = DBConnection::getInstance();
+        $sql = "INSERT INTO t_tache (nom, date_creation, date_echeance, categorie, priority) VALUES (?, ?, ?, ?, ?)";
+        $params = array($taskName, new DateTime(), $dueDate, $categorie, $priority);
+        $rowCount = $db->executeQuery($sql, $params);
+        return $rowCount > 0;
+    }
+
+
+    /**
      * Ajoute un commentaire associé à une tâche identifiée par son nom (originalTaskName).
      *
      * @param string $taskName Le nom actuel de la tâche.
