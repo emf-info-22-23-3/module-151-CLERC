@@ -13,8 +13,8 @@ function chargerTasks(successCallback, errorCallback) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: BASE_URL,
-        data: { action: "getTasks" },
+        url: BASE_URL + "?action=getTasks",
+        data: {},
         success: successCallback,
         error: errorCallback
     });
@@ -86,8 +86,8 @@ function isLogged(successCallback, errorCallback) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: BASE_URL,
-        data: { action: "isLogged" },
+        url: BASE_URL + "?action=isLogged",
+        data: {},
         success: successCallback,
         error: errorCallback
     });
@@ -96,6 +96,7 @@ function isLogged(successCallback, errorCallback) {
 /**
  * Envoie une requête AJAX pour créer un utilisateur.
  *
+ * @param {string} originalTaskName - L'ancien nom de la tâche (nom actuellement inscrit dans la BD).
  * @param {string} taskName - Le nom de la tâche.
  * @param {string} priority - La priorité de la tâche.
  * @param {string} dueDate - La date d'échéance de la tâche (peut être null).
@@ -103,12 +104,12 @@ function isLogged(successCallback, errorCallback) {
  * @param {function} successCallback - Fonction appelée en cas de succès.
  * @param {function} errorCallback - Fonction appelée en cas d'erreur.
  */
-function modifyTask(taskName, priority, dueDate, newComment, successCallback, errorCallback) {
+function modifyTask(originalTaskName, taskName, priority, dueDate, newComment, successCallback, errorCallback) {
     $.ajax({
         type: "POST",
         dataType: "json",
         url: BASE_URL + "?action=updateTask",
-        data: { taskName: taskName, priority: priority, dueDate: dueDate, newComment: newComment },
+        data: { originalTaskName: originalTaskName, taskName: taskName, priority: priority, dueDate: dueDate, newComment: newComment },
         success: successCallback,
         error: errorCallback
     });

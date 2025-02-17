@@ -106,5 +106,15 @@ class UserManager
     {
         return $this->sessionManager->getAuthor();
     }
+
+    /**
+     * Retourne l'id de l'utilisateur de la session.
+     *
+     * @return int
+     */
+    public function getAuthorId()
+    {
+        return (int) $this->sessionManager->getId();
+    }
 }
 ?>

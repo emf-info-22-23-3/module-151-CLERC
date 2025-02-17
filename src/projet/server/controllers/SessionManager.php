@@ -17,7 +17,7 @@ class SessionManager
      */
     public function login($user)
     {
-        $_SESSION['logged'] = $user->getPassword();
+        $_SESSION['id'] = $user->getId();
         $_SESSION['name'] = $user->getName();
         $_SESSION['fullname'] = $user->getFullname();
     }
@@ -41,7 +41,7 @@ class SessionManager
      */
     public function isLogged()
     {
-        return isset($_SESSION['logged']);
+        return isset($_SESSION['id']);
     }
 
     /**
@@ -55,6 +55,18 @@ class SessionManager
         $fullname = $_SESSION['fullname'];
 
         return $name . $fullname;
+    }
+
+    /**
+     * Retourne l'id de l'utilisateur de la session.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        $id = $_SESSION['id'];
+
+        return $id;
     }
 }
 ?>

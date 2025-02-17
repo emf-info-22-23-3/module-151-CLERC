@@ -2,7 +2,7 @@
  * @author Lexkalli
  */
 
-function modifyTaskSuccess() {
+function modifyTaskSuccess(response) {
     if (response.result) {
         alert("Tâche modifiée");
         window.location.href = "./user-view.html";
@@ -11,11 +11,11 @@ function modifyTaskSuccess() {
     }
 }
 
-function modifyTaskError() {
-    if (jqXHR.status === 401) {
-        alert("Erreur 401: Vous devez être connecté pour créer un utilisateur.");
+function modifyTaskError(request, status, error) {
+    if (request.status === 401) {
+        alert("Erreur 401: Vous devez être connecté pour modifier une tâche.");
     } else {
-        alert("Erreur lors de la création de l'utilisateur : " + errorThrown);
+        alert("Erreur lors de la modification de la tâche : " + error);
     }
 }
 
@@ -64,10 +64,13 @@ function isLoggedSuccess(response) {
                 var taskNameVal = $(this).find("input[name='taskName']").val();
                 var priorityVal = $(this).find("input[name='priority']").val();
                 var dueDateVal = $(this).find("input[name='dueDate']").val();
-                var newCommentVal = $(this).find("input[name='newComment']").val();
+                var newCommentVal = $(this).find("textarea[name='newComment']").val();
+
+                // Récupérer le nom de base de la tâche
+                var originalTaskName = localStorage.getItem("taskName");
 
                 // Appeler la fonction de service pour créer un utilisateur en passant les callbacks
-                modifyTask(taskNameVal, priorityVal, dueDateVal, newCommentVal, modifyTaskSuccess, modifyTaskError);
+                modifyTask(originalTaskName, taskNameVal, priorityVal, dueDateVal, newCommentVal, modifyTaskSuccess, modifyTaskError);
             });
 
         } else {

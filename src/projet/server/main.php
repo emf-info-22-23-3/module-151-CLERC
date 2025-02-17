@@ -40,31 +40,36 @@ switch ($action) {
     case "login":
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            // Vérifier que les identifiants sont bien fournis
-            if (
-                !isset($_POST['login']) || !isset($_POST['password']) ||
-                empty(trim($_POST['login'])) || empty(trim($_POST['password']))
-            ) {
-                echo json_encode(array("result" => false, "error" => "Identifiants incomplets"));
-                break;
-            }
-
-            // Récupérer les identifiants envoyés en POST
-            $login = $_POST['login'];
-            $password = $_POST['password'];
-
-            // Vérifier que $login ne contienne que des lettres sans espaces
-            if (!preg_match('/^[A-Za-z]+$/', $login)) {
-                echo json_encode(array("result" => false, "error" => "Le champ login ne doit contenir que des lettres sans espaces."));
-                break;
-            }
-
-            // Utiliser UserManager pour la connexion, qui appellera SessionManager en interne
             $userManager = new UserManager();
-            if ($userManager->login($login, $password)) {
-                echo json_encode(array("result" => true, "login" => $login));
+            if (!$userManager->isLogged()) {
+
+                // Vérifier que les identifiants sont bien fournis
+                if (
+                    !isset($_POST['login']) || !isset($_POST['password']) ||
+                    empty(trim($_POST['login'])) || empty(trim($_POST['password']))
+                ) {
+                    echo json_encode(array("result" => false, "error" => "Identifiants incomplets"));
+                    break;
+                }
+
+                // Récupérer les identifiants envoyés en POST
+                $login = $_POST['login'];
+                $password = $_POST['password'];
+
+                // Vérifier que $login ne contienne que des lettres sans espaces
+                if (!preg_match('/^[A-Za-z]+$/', $login)) {
+                    echo json_encode(array("result" => false, "error" => "Le champ login ne doit contenir que des lettres sans espaces."));
+                    break;
+                }
+
+                // Utiliser UserManager pour la connexion, qui appellera SessionManager en interne
+                if ($userManager->login($login, $password)) {
+                    echo json_encode(array("result" => true, "login" => $login));
+                } else {
+                    echo json_encode(array("result" => false, "error" => "Identifiants incorrects"));
+                }
             } else {
-                echo json_encode(array("result" => false, "error" => "Identifiants incorrects"));
+                echo json_encode(array("result" => false, "error" => "Vous êtes déjà connecté"));
             }
         }
         break;
@@ -141,6 +146,11 @@ switch ($action) {
             $userManager = new UserManager();
             if ($userManager->isLogged()) {
 
+                if (!isset($_POST['originalTaskName']) || empty(trim($_POST['originalTaskName']))) {
+                    echo json_encode(array("result" => false, "error" => "Erreur lors de la récupération de l'ancien nom de la tâche."));
+                    break;
+                }
+
                 // Vérifier que les données obligatoires sont bien fournis
                 if (
                     !isset($_POST['taskName']) || !isset($_POST['priority']) ||
@@ -150,30 +160,34 @@ switch ($action) {
                     break;
                 }
 
-                if (!isset($_POST['dueDate']) || !isset($_POST['newComment'])) {
-                    echo json_encode(array("result" => false, "error" => "Champs manquants dans la requête."));
+                // Récupérer les données envoyées en POST
+                $taskName = $_POST['taskName'];
+                $priority = $_POST['priority'];
+                $dueDate = isset($_POST['dueDate']) ? $_POST['dueDate'] : null;
+                $newCommentText = isset($_POST['newComment']) ? $_POST['newComment'] : null;
+                $originalTaskName = $_POST["originalTaskName"];
+
+
+                if ($newCommentText === null) {
+                    echo json_encode(array("error" => "Comment null"));
                     break;
                 }
 
-                // Récupérer les identifiants envoyés en POST
-                $taskName = $_POST['taskName'];
-                $priority = $_POST['priority'];
-                $dueDate = $_POST['dueDate'];
-                $newComment = $_POST['newComment'];
 
                 $comment = null;
-                if (!empty($newComment)) {
+                if (!empty($newCommentText)) {
                     $author = $userManager->getAuthor();
-                    $comment = new Comment($newComment, new DateTime(), $author);
+                    $comment = new Comment($newCommentText, new DateTime(), $author);
                 }
 
                 $cardManager = new CardManager();
-                $isUpdated = $cardManager->updateTask($taskName, $priority, $dueDate, $comment);
+                $userId = $userManager->getAuthorId();
+                $isUpdated = $cardManager->updateTask($originalTaskName, $taskName, $priority, $dueDate, $comment, $userId);
 
                 if ($isUpdated) {
                     echo json_encode(array('result' => true));
                 } else {
-                    echo json_encode(array("error" => "Erreur lors de la modification de la tâche"));
+                    echo json_encode(array("error" => "Erreur lors de la modification de la tâche. Avez-vous modifié une donnée ?"));
                 }
             }
         }
