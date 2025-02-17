@@ -96,5 +96,15 @@ class UserManager
 
         return false;
     }
+
+    /**
+     * Retourne le nom et le prénom de l'utilisateur de la session.
+     *
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return $this->sessionManager->getAuthor();
+    }
 }
 ?>

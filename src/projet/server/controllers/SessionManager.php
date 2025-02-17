@@ -17,12 +17,9 @@ class SessionManager
      */
     public function login($user)
     {
-        // Par exemple, nous stockons le mot de passe hashé et quelques informations utiles
         $_SESSION['logged'] = $user->getPassword();
-        $_SESSION['user'] = array(
-            "id" => $user->getId(),
-            "login" => $user->getLogin()
-        );
+        $_SESSION['name'] = $user->getName();
+        $_SESSION['fullname'] = $user->getFullname();
     }
 
     /**
@@ -45,6 +42,19 @@ class SessionManager
     public function isLogged()
     {
         return isset($_SESSION['logged']);
+    }
+
+    /**
+     * Retourne le nom et le prénom de l'utilisateur de la session.
+     *
+     * @return string
+     */
+    public function getAuthor()
+    {
+        $name = $_SESSION['name'];
+        $fullname = $_SESSION['fullname'];
+
+        return $name . $fullname;
     }
 }
 ?>

@@ -43,7 +43,7 @@ switch ($action) {
             // Vérifier que les identifiants sont bien fournis
             if (
                 !isset($_POST['login']) || !isset($_POST['password']) ||
-                empty($_POST['login']) || empty($_POST['password'])
+                empty(trim($_POST['login'])) || empty(trim($_POST['password']))
             ) {
                 echo json_encode(array("result" => false, "error" => "Identifiants incomplets"));
                 break;
@@ -89,7 +89,7 @@ switch ($action) {
                 // Vérifier que les données sont bien fournis
                 if (
                     !isset($_POST['name']) || !isset($_POST['fullname']) || !isset($_POST['login']) || !isset($_POST['password']) ||
-                    empty($_POST['name']) || empty($_POST['fullname'] || empty($_POST['login']) || empty($_POST['password']))
+                    empty(trim($_POST['name'])) || empty(trim($_POST['fullname'])) || empty(trim($_POST['login'])) || empty(trim($_POST['password']))
                 ) {
                     echo json_encode(array("result" => false, "error" => "Un ou plusieurs champs ne sont pas renseignés."));
                     break;
@@ -132,6 +132,49 @@ switch ($action) {
                 header('HTTP/1.1 401 Unauthorized');
                 header('Content-Type: application/json; charset=UTF-8');
                 echo json_encode(array("result" => false, "error" => "Unauthorized"));
+            }
+        }
+        break;
+
+    case "updateTask":
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $userManager = new UserManager();
+            if ($userManager->isLogged()) {
+
+                // Vérifier que les données obligatoires sont bien fournis
+                if (
+                    !isset($_POST['taskName']) || !isset($_POST['priority']) ||
+                    empty(trim($_POST['taskName'])) || empty(trim($_POST['priority']))
+                ) {
+                    echo json_encode(array("result" => false, "error" => "Les champs nom et priorité doivent être renseignés."));
+                    break;
+                }
+
+                if (!isset($_POST['dueDate']) || !isset($_POST['newComment'])) {
+                    echo json_encode(array("result" => false, "error" => "Champs manquants dans la requête."));
+                    break;
+                }
+
+                // Récupérer les identifiants envoyés en POST
+                $taskName = $_POST['taskName'];
+                $priority = $_POST['priority'];
+                $dueDate = $_POST['dueDate'];
+                $newComment = $_POST['newComment'];
+
+                $comment = null;
+                if (!empty($newComment)) {
+                    $author = $userManager->getAuthor();
+                    $comment = new Comment($newComment, new DateTime(), $author);
+                }
+
+                $cardManager = new CardManager();
+                $isUpdated = $cardManager->updateTask($taskName, $priority, $dueDate, $comment);
+
+                if ($isUpdated) {
+                    echo json_encode(array('result' => true));
+                } else {
+                    echo json_encode(array("error" => "Erreur lors de la modification de la tâche"));
+                }
             }
         }
         break;

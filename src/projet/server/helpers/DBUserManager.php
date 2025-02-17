@@ -14,10 +14,16 @@ class DBUserManager
     public function getUserByLogin($login)
     {
         $db = DBConnection::getInstance();
-        $sql = "SELECT pk_utilisateur, login, password FROM t_utilisateur WHERE login = ?";
+        $sql = "SELECT pk_utilisateur, nom, prenom, login, password FROM t_utilisateur WHERE login = ?";
         $result = $db->selectSingleQuery($sql, array($login));
         if ($result) {
-            return new User((int) $result['pk_utilisateur'], $result['login'], $result['password']);
+            return new User(
+                (int) $result['pk_utilisateur'],
+                $result['nom'],
+                $result['prenom'],
+                $result['login'],
+                $result['password'],
+            );
         }
         return false;
     }
@@ -51,9 +57,17 @@ class DBUserManager
 
         if ($rowCount > 0) {
             $userId = $db->getLastId("t_utilisateur");
+
+            // Exécuter une requête pour vérifier que l'ajout a complètement fonctionné, puis retourner un nouveau User
             $userData = $db->selectSingleQuery("SELECT pk_utilisateur, login, password FROM t_utilisateur WHERE pk_utilisateur = ?", array($userId));
             if ($userData) {
-                return new User((int) $userData['pk_utilisateur'], $userData['login'], $userData['password']);
+                return new User(
+                    (int) $userData['pk_utilisateur'],
+                    $userData['nom'],
+                    $userData['prenom'],
+                    $userData['login'],
+                    $userData['password'],
+                );
             }
         }
         return false;

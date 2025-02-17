@@ -4,7 +4,7 @@
 
 /* Style global du body */
 body {
-    display: flex;
+    display: none;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     justify-content: center;

@@ -105,7 +105,6 @@ function isLoggedSuccess(response) {
 
     // Attacher le code pour le lien "Déconnexion"
     $('#nav-deconnection').on("click", function (e) {
-      e.preventDefault();
       logoutUser(function (response) {
         if (response.result) {
           // Enlever le login dans le sessionStorage

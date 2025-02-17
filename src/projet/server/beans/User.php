@@ -6,12 +6,16 @@
 class User
 {
     private $id;
+    private $name;
+    private $fullname;
     private $login;
-    private $password; // Doit contenir le mot de passe hashé
+    private $password;
 
-    public function __construct(int $id, string $login, string $password)
+    public function __construct(int $id, string $name, string $fullname, string $login, string $password)
     {
         $this->id = $id;
+        $this->name = $name;
+        $this->fullname = $fullname;
         $this->login = $login;
         $this->password = $password;
     }
@@ -32,15 +36,14 @@ class User
         return $this->password;
     }
 
-    // Setters (si nécessaire)
-    public function setLogin(string $login): void
+    public function getName(): string
     {
-        $this->login = $login;
+        return $this->name;
     }
 
-    public function setPassword(string $password): void
+    public function getFullname(): string
     {
-        $this->password = $password;
+        return $this->fullname;
     }
 }
 ?>
