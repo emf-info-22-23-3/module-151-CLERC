@@ -106,12 +106,12 @@ function isLogged(successCallback, errorCallback) {
  * @param {function} successCallback - Fonction appelée en cas de succès.
  * @param {function} errorCallback - Fonction appelée en cas d'erreur.
  */
-function modifyTask(originalTaskName, taskName, priority, dueDate, newComment, successCallback, errorCallback) {
+function modifyTask(taskId, taskName, priority, dueDate, newComment, successCallback, errorCallback) {
     $.ajax({
         type: "POST",
         dataType: "json",
         url: BASE_URL + "?action=updateTask",
-        data: { originalTaskName: originalTaskName, taskName: taskName, priority: priority, dueDate: dueDate, newComment: newComment },
+        data: { taskId: taskId, taskName: taskName, priority: priority, dueDate: dueDate, newComment: newComment },
         success: successCallback,
         error: errorCallback
     });
@@ -145,12 +145,12 @@ function addTask(taskName, priority, dueDate, newComment, successCallback, error
  * @param {function} successCallback - Fonction appelée en cas de succès.
  * @param {function} errorCallback - Fonction appelée en cas d'erreur.
  */
-function deleteTask(taskName, successCallback, errorCallback) {
+function deleteTask(taskId, successCallback, errorCallback) {
     $.ajax({
         type: "POST",
         dataType: "json",
         url: BASE_URL + "?action=deleteTask",
-        data: { taskName: taskName },
+        data: { taskId: taskId },
         success: successCallback,
         error: errorCallback
     });

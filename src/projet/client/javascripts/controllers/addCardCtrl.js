@@ -33,6 +33,12 @@ function isLoggedSuccess(response) {
             var dueDateVal = $(this).find("input[name='dueDate']").val();
             var newCommentVal = $(this).find("textarea[name='newComment']").val();
 
+            // Vérifier que le nom de la tâche ne contient pas de guillemets simples ou doubles
+            if (/["']/.test(taskNameVal)) {
+                alert("Les guillemets ne sont pas autorisés dans le nom de la tâche.");
+                return;
+            }
+
             // Appeler la fonction de service pour créer un utilisateur en passant les callbacks
             addTask(taskNameVal, priorityVal, dueDateVal, newCommentVal, addTaskSuccess, addTaskError);
         });

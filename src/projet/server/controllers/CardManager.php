@@ -23,44 +23,43 @@ class CardManager
         return $this->dbCardManager->getAllTasks();
     }
 
-    public function updateTask($originalTaskName, $taskName, $priority, $dueDate, $comment, $userId)
+    public function updateTask($taskId, $taskName, $priority, $dueDate, $comment, $userId)
     {
-        $isUpdated = $this->dbCardManager->updateTask($originalTaskName, $taskName, $priority, $dueDate);
+        $isTaskModified = $this->dbCardManager->updateTask($taskId, $taskName, $priority, $dueDate);
 
         $isCommentAdded = false;
-
         // Si un objet Comment est fourni, tenter de l'ajouter
         if ($comment instanceof Comment) {
-            $isCommentAdded = $this->dbCardManager->addComment($taskName, $comment, $userId);
+            $isCommentAdded = $this->dbCardManager->addComment($taskId, $comment, $userId);
         }
 
         // Retourne true si l'update ou l'ajout du commentaire a réussi
-        return $isUpdated || $isCommentAdded;
+        return $isTaskModified || $isCommentAdded;
     }
 
     public function addTask($taskName, $priority, $dueDate, $comment, $userId)
     {
         $categorie = "todo";
-        $isAdded = $this->dbCardManager->addTask($taskName, $dueDate, $categorie, $priority, $userId);
+        $taskId = $this->dbCardManager->addTask($taskName, $dueDate, $categorie, $priority, $userId);
+        $isTaskAdded = ($taskId !== false);
 
         $isCommentAdded = false;
-
         // Si un objet Comment est fourni, tenter de l'ajouter
-        if ($comment instanceof Comment) {
-            $isCommentAdded = $this->dbCardManager->addComment($taskName, $comment, $userId);
+        if ($isTaskAdded && $comment instanceof Comment) {
+            $isCommentAdded = $this->dbCardManager->addComment($taskId, $comment, $userId);
         }
 
         // Retourne true si l'update ou l'ajout du commentaire a réussi
-        return $isAdded || $isCommentAdded;
+        return $isTaskAdded || $isCommentAdded;
     }
 
-    public function deleteTask($taskName)
+    public function deleteTask($taskId)
     {
         // Supprimer tous les commentaires associés à la tâche
-        $this->dbCardManager->deleteComments($taskName);
+        $this->dbCardManager->deleteComments($taskId);
 
         // Supprimer la tâche elle-même
-        $isTaskDeleted = $this->dbCardManager->deleteTask($taskName);
+        $isTaskDeleted = $this->dbCardManager->deleteTask($taskId);
 
         return $isTaskDeleted;
     }

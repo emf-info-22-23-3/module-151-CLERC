@@ -50,13 +50,13 @@ class DBCardManager
     /**
      * Met à jour une tâche identifiée par son nom actuel (originalTaskName).
      *
-     * @param string $originalTaskName Le nom actuel de la tâche.
+     * @param string $taskId L'ID de la tâche.
      * @param string $taskName Le nouveau nom de la tâche.
      * @param string $priority La nouvelle priorité.
      * @param string|null $dueDate La nouvelle date d'échéance (format "yyyy-MM-dd" ou null).
      * @return bool true si la mise à jour a réussi, false sinon.
      */
-    public function updateTask($originalTaskName, $taskName, $priority, $dueDate)
+    public function updateTask($taskId, $taskName, $priority, $dueDate)
     {
         $db = DBConnection::getInstance();
 
@@ -64,9 +64,10 @@ class DBCardManager
             $dueDate = null;
         }
 
-        $sql = "UPDATE t_tache SET nom = ?, priorite = ?, date_echeance = ? WHERE nom = ?";
-        $params = array($taskName, $priority, $dueDate, $originalTaskName);
+        $sql = "UPDATE t_tache SET nom = ?, priorite = ?, date_echeance = ? WHERE pk_tache = ?";
+        $params = array($taskName, $priority, $dueDate, $taskId);
         $rowCount = $db->executeQuery($sql, $params);
+
         return $rowCount > 0;
     }
 
@@ -90,26 +91,24 @@ class DBCardManager
         $sql = "INSERT INTO t_tache (nom, date_creation, date_echeance, categorie, priorite, fk_utilisateur_tache) VALUES (?, ?, ?, ?, ?, ?)";
         $params = array($taskName, $dateCreation, $dueDate, $categorie, $priority, $userId);
         $rowCount = $db->executeQuery($sql, $params);
-        return $rowCount > 0;
+
+        if ($rowCount > 0) {
+            // Retourne l'ID de la tâche nouvellement insérée
+            return $db->getLastId("t_tache");
+        }
+        return false;
     }
 
     /**
-     * Ajoute un commentaire associé à une tâche identifiée par son nom (originalTaskName).
+     * Ajoute un commentaire associé à une tâche identifiée par son id.
      *
-     * @param string $taskName Le nom actuel de la tâche.
+     * @param string $taskId L'ID de la tâche.
      * @param Comment $comment L'objet Comment à ajouter.
      * @return bool true si l'ajout du commentaire a réussi, false sinon.
      */
-    public function addComment($taskName, Comment $comment, int $userId)
+    public function addComment($taskId, Comment $comment, int $userId)
     {
         $db = DBConnection::getInstance();
-        // Récupérer l'identifiant de la tâche à partir de son nom
-        $sqlTask = "SELECT pk_tache FROM t_tache WHERE nom = ?";
-        $row = $db->selectSingleQuery($sqlTask, array($taskName));
-        if (!$row) {
-            return false;
-        }
-        $taskId = $row['pk_tache'];
 
         $sql = "INSERT INTO t_commentaire (commentaire, date_creation, fk_utilisateur_commentaire, fk_tache) VALUES (?, ?, ?, ?)";
         $dateStr = $comment->getDate()->format("Y-m-d");
@@ -118,17 +117,9 @@ class DBCardManager
         return ($rowCount > 0);
     }
 
-    public function deleteComments($taskName)
+    public function deleteComments($taskId)
     {
         $db = DBConnection::getInstance();
-        // Récupérer l'identifiant de la tâche à partir de son nom
-        $sqlTask = "SELECT pk_tache FROM t_tache WHERE nom = ?";
-        $row = $db->selectSingleQuery($sqlTask, array($taskName));
-        if (!$row) {
-            // Si la tâche n'existe pas, on considère qu'il n'y a rien à supprimer
-            return true;
-        }
-        $taskId = $row['pk_tache'];
 
         // Supprimer tous les commentaires associés à cette tâche
         $sql = "DELETE FROM t_commentaire WHERE fk_tache = ?";
@@ -137,11 +128,19 @@ class DBCardManager
         return true;
     }
 
-    public function deleteTask($taskName)
+    public function deleteComment($commentId)
     {
         $db = DBConnection::getInstance();
-        $sql = "DELETE FROM t_tache WHERE nom = ?";
-        $rowCount = $db->executeQuery($sql, array($taskName));
+        $sql = "DELETE FROM t_commentaire WHERE pk_commentaire = ?";
+        $rowCount = $db->executeQuery($sql, array($commentId));
+        return ($rowCount > 0);
+    }
+
+    public function deleteTask($taskId)
+    {
+        $db = DBConnection::getInstance();
+        $sql = "DELETE FROM t_tache WHERE pk_tache = ?";
+        $rowCount = $db->executeQuery($sql, array($taskId));
         return $rowCount > 0;
     }
 
@@ -178,14 +177,5 @@ class DBCardManager
         }
         return $comments;
     }
-
-    public function deleteComment($commentId)
-    {
-        $db = DBConnection::getInstance();
-        $sql = "DELETE FROM t_commentaire WHERE pk_commentaire = ?";
-        $rowCount = $db->executeQuery($sql, array($commentId));
-        return ($rowCount > 0);
-    }
-
 }
 ?>

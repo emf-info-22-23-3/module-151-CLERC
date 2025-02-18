@@ -53,8 +53,8 @@ switch ($action) {
                 }
 
                 // Récupérer les identifiants envoyés en POST
-                $login = $_POST['login'];
-                $password = $_POST['password'];
+                $login = trim($_POST['login']);
+                $password = $_POST['password']; // Ne pas utiliser trim car un mot de passe doit être précis (l'espace au tout début peut potentiellement compter)
 
                 // Vérifier que $login ne contienne que des lettres sans espaces
                 if (!preg_match('/^[A-Za-z]+$/', $login)) {
@@ -101,10 +101,10 @@ switch ($action) {
                 }
 
                 // Récupérer les identifiants envoyés en POST
-                $name = $_POST['name'];
-                $fullname = $_POST['fullname'];
-                $login = $_POST['login'];
-                $password = $_POST['password'];
+                $name = trim($_POST['name']);
+                $fullname = trim($_POST['fullname']);
+                $login = trim($_POST['login']);
+                $password = $_POST['password']; // Ne pas utiliser trim car un mot de passe doit être précis (l'espace au tout début peut potentiellement compter)
 
                 // Vérifier que $login, $name et $fullname ne contiennent que des lettres sans espaces
                 if (!preg_match('/^[A-Za-z]+$/', $login) || !preg_match('/^[A-Za-z]+$/', $name) || !preg_match('/^[A-Za-z]+$/', $fullname)) {
@@ -146,8 +146,8 @@ switch ($action) {
             $userManager = new UserManager();
             if ($userManager->isLogged()) {
 
-                if (!isset($_POST['originalTaskName']) || empty(trim($_POST['originalTaskName']))) {
-                    echo json_encode(array("result" => false, "error" => "Erreur lors de la récupération de l'ancien nom de la tâche."));
+                if (!isset($_POST['taskId']) || empty(trim($_POST['taskId']))) {
+                    echo json_encode(array("result" => false, "error" => "Erreur lors de la récupération de l'id de la tâche."));
                     break;
                 }
 
@@ -161,20 +161,15 @@ switch ($action) {
                 }
 
                 // Récupérer les données envoyées en POST
-                $taskName = $_POST['taskName'];
-                $priority = $_POST['priority'];
-                $dueDate = isset($_POST['dueDate']) ? $_POST['dueDate'] : null;
-                $newCommentText = isset($_POST['newComment']) ? $_POST['newComment'] : null;
-                $originalTaskName = $_POST["originalTaskName"];
+                $taskName = trim($_POST['taskName']);
+                $priority = trim($_POST['priority']);
+                $dueDate = isset($_POST['dueDate']) ? trim($_POST['dueDate']) : null;
+                $newCommentText = isset($_POST['newComment']) ? trim($_POST['newComment']) : null;
+                $taskId = trim($_POST["taskId"]);
 
                 $allowedPriorities = array("basse", "moyenne", "haute", "urgente");
                 if (!in_array(strtolower($priority), $allowedPriorities)) {
                     echo json_encode(array("result" => false, "error" => "La priorité doit être 'basse', 'moyenne', 'haute' ou 'urgente'."));
-                    break;
-                }
-
-                if ($newCommentText === null) {
-                    echo json_encode(array("error" => "Comment null"));
                     break;
                 }
 
@@ -186,7 +181,7 @@ switch ($action) {
 
                 $cardManager = new CardManager();
                 $userId = $userManager->getAuthorId();
-                $isUpdated = $cardManager->updateTask($originalTaskName, $taskName, $priority, $dueDate, $comment, $userId);
+                $isUpdated = $cardManager->updateTask($taskId, $taskName, $priority, $dueDate, $comment, $userId);
 
                 if ($isUpdated) {
                     echo json_encode(array('result' => true));
@@ -212,10 +207,15 @@ switch ($action) {
                 }
 
                 // Récupérer les données envoyées en POST
-                $taskName = $_POST['taskName'];
-                $priority = $_POST['priority'];
-                $dueDate = isset($_POST['dueDate']) ? $_POST['dueDate'] : null;
-                $newCommentText = isset($_POST['newComment']) ? $_POST['newComment'] : null;
+                $taskName = trim($_POST['taskName']);
+                $priority = trim($_POST['priority']);
+                $dueDate = isset($_POST['dueDate']) ? trim($_POST['dueDate']) : null;
+                $newCommentText = isset($_POST['newComment']) ? trim($_POST['newComment']) : null;
+
+                if (preg_match('/["\']/', $taskName)) {
+                    echo json_encode(array("result" => false, "error" => "Les guillemets ne sont pas autorisés dans le nom de la tâche."));
+                    break;
+                }
 
                 $allowedPriorities = array("basse", "moyenne", "haute", "urgente");
                 if (!in_array(strtolower($priority), $allowedPriorities)) {
@@ -252,15 +252,15 @@ switch ($action) {
             $userManager = new UserManager();
             if ($userManager->isLogged()) {
 
-                if (!isset($_POST['taskName']) || empty(trim($_POST['taskName']))) {
-                    echo json_encode(array("result" => false, "error" => "Le nom de la tâche est requis."));
+                if (!isset($_POST['taskId']) || empty(trim($_POST['taskId']))) {
+                    echo json_encode(array("result" => false, "error" => "Erreur lors de la récupération de l'ID de la tâche."));
                     break;
                 }
 
-                $taskName = trim($_POST['taskName']);
+                $taskId = trim($_POST['taskId']);
 
                 $cardManager = new CardManager();
-                $isDeleted = $cardManager->deleteTask($taskName);
+                $isDeleted = $cardManager->deleteTask($taskId);
 
                 if ($isDeleted) {
                     echo json_encode(array('result' => true));

@@ -5,6 +5,10 @@
 function modifyTaskSuccess(response) {
     if (response.result) {
         alert("Tâche modifiée");
+        localStorage.removeItem("taskId");
+        localStorage.removeItem("taskName");
+        localStorage.removeItem("priority");
+        localStorage.removeItem("dueDate");
         window.location.href = "./user-view.html";
     } else {
         alert("Erreur : " + (response.error || "Modification impossible"));
@@ -66,11 +70,11 @@ function isLoggedSuccess(response) {
                 var dueDateVal = $(this).find("input[name='dueDate']").val();
                 var newCommentVal = $(this).find("textarea[name='newComment']").val();
 
-                // Récupérer le nom de base de la tâche
-                var originalTaskName = localStorage.getItem("taskName");
+                // Récupérer l'id de la tâche
+                var taskId = localStorage.getItem("taskId");
 
                 // Appeler la fonction de service pour créer un utilisateur en passant les callbacks
-                modifyTask(originalTaskName, taskNameVal, priorityVal, dueDateVal, newCommentVal, modifyTaskSuccess, modifyTaskError);
+                modifyTask(taskId, taskNameVal, priorityVal, dueDateVal, newCommentVal, modifyTaskSuccess, modifyTaskError);
             });
 
         } else {

@@ -58,8 +58,7 @@ function loadTasksSuccess(tasks) {
               Commentaires
             </a>
             <a href="#" class="delete-link"
-              data-task-id="${task.id}"
-              data-task-name="${task.nom}">
+              data-task-id="${task.id}">
               Supprimer
             </a>
           </div>
@@ -88,9 +87,9 @@ function loadTasksSuccess(tasks) {
 
   $(".delete-link").on("click", function (e) {
     e.preventDefault();
-    let taskName = $(this).data("task-name");
+    let taskId = $(this).data("task-id");
     if (confirm("Voulez-vous vraiment supprimer cette tâche ?")) {
-      deleteTask(taskName, deleteTaskSuccess, deleteTaskError);
+      deleteTask(taskId, deleteTaskSuccess, deleteTaskError);
     }
   });
 
@@ -119,6 +118,7 @@ function deleteTaskSuccess(response) {
   if (response.result) {
     alert("Tâche supprimée avec succès");
     window.location.reload();
+    localStorage.removeItem("taskId");
   } else {
     alert("Erreur lors de la suppression de la tâche : " + (response.error || ""));
   }
