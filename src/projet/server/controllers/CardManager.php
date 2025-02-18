@@ -76,5 +76,10 @@ class CardManager
         return $this->dbCardManager->getComments($taskId);
     }
 
+    public function deleteComment($commentId)
+    {
+        return $this->dbCardManager->deleteComment($commentId);
+    }
+
 }
 ?>

@@ -155,6 +155,7 @@ class DBCardManager
     {
         $db = DBConnection::getInstance();
         $sql = "SELECT 
+                c.pk_commentaire,
                 c.commentaire, 
                 c.date_creation, 
                 u.nom AS auteurNom, 
@@ -172,12 +173,19 @@ class DBCardManager
             // Créer un objet Comment à partir des données récupérées
             $auteur = $row['auteurNom'] . " " . $row['auteurPrenom'];
             $commentObj = new Comment($row['commentaire'], new DateTime($row['date_creation']), $auteur);
+            $commentObj->setId($row['pk_commentaire']);
             $comments[] = $commentObj;
         }
         return $comments;
     }
 
-
+    public function deleteComment($commentId)
+    {
+        $db = DBConnection::getInstance();
+        $sql = "DELETE FROM t_commentaire WHERE pk_commentaire = ?";
+        $rowCount = $db->executeQuery($sql, array($commentId));
+        return ($rowCount > 0);
+    }
 
 }
 ?>

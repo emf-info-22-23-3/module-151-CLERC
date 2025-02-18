@@ -5,6 +5,7 @@
 
 class Comment
 {
+    private int $id;
     private string $contenu;
     private DateTime $date;
     private string $auteur;
@@ -16,7 +17,17 @@ class Comment
         $this->auteur = $auteur;
     }
 
+    // Setters
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
     // Getters
+    public function getId(): int
+    {
+        return $this->id;
+    }
     public function getContenu(): string
     {
         return $this->contenu;

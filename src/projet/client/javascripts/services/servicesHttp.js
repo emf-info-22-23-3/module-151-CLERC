@@ -173,3 +173,21 @@ function chargerCommentaires(taskId, successCallback, errorCallback) {
         error: errorCallback
     });
 }
+
+/**
+ * Envoie une requête AJAX pour supprimer un commentaire.
+ * 
+ * @param {string} commentId - L'ID du commentaire à supprimer.
+ * @param {function} successCallback - Fonction appelée en cas de succès.
+ * @param {function} errorCallback - Fonction appelée en cas d'erreur.
+ */
+function deleteComment(commentId, successCallback, errorCallback) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: BASE_URL + "?action=deleteComment",
+        data: { commentId: commentId },
+        success: successCallback,
+        error: errorCallback
+    });
+}
