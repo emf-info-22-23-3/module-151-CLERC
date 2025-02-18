@@ -45,19 +45,23 @@ function loadTasksSuccess(tasks) {
                   <p><strong>Date d'échéance:</strong> ${task.dateEcheance ? task.dateEcheance : "-"}</p>
                   <p><strong>Priorité:</strong> ${task.priorite}</p>
                   <p><strong>Créée par:</strong> ${task.utilisateurOrigine}</p>
-                  <div class="d-flex justify-content-between task-actions">
+            <div class="d-flex justify-content-between task-actions">
             <a href="./modify-card.html" class="modify-link"
-               data-task-id="${task.id}"
-               data-task-name="${task.nom}"
-               data-priority="${task.priorite}"
-               data-due-date="${task.dateEcheance ? task.dateEcheance : ''}">
+              data-task-id="${task.id}"
+              data-task-name="${task.nom}"
+              data-priority="${task.priorite}"
+              data-due-date="${task.dateEcheance ? task.dateEcheance : ''}">
               Modifier
             </a>
+            <a href="./view-comments.html" class="comments-link" 
+              data-task-id="${task.id}">
+              Commentaires
+            </a>
             <a href="#" class="delete-link"
-             data-task-id="${task.id}"
-             data-task-name="${task.nom}">
-            Supprimer
-         </a>
+              data-task-id="${task.id}"
+              data-task-name="${task.nom}">
+              Supprimer
+            </a>
           </div>
                 </div>
               </div>
@@ -88,6 +92,14 @@ function loadTasksSuccess(tasks) {
     if (confirm("Voulez-vous vraiment supprimer cette tâche ?")) {
       deleteTask(taskName, deleteTaskSuccess, deleteTaskError);
     }
+  });
+
+  $(".comments-link").on("click", function (e) {
+    // Récupérer l'ID stockée dans les attributs data du lien cliqué
+    let taskId = $(this).data("task-id");
+
+    // Stocker l'information dans le localStorage
+    localStorage.setItem("taskId", taskId);
   });
 }
 

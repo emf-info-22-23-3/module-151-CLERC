@@ -40,10 +40,12 @@ body {
 }
 
 .modify-link,
-.delete-link {
+.delete-link,
+.comments-link {
     text-decoration: none;
     color: rgb(86, 46, 231);
     transition: color 0.3s ease, transform 0.3s ease;
+    font-size: 14px;
 }
 
 .modify-link:hover {
@@ -53,5 +55,10 @@ body {
 
 .delete-link:hover {
     color: #ff3c00;
+    transform: scale(1.1);
+}
+
+.comments-link:hover {
+    color: #45a049;
     transform: scale(1.1);
 }

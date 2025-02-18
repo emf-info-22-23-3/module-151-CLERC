@@ -271,6 +271,39 @@ switch ($action) {
         }
         break;
 
+    case "getComments":
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $userManager = new UserManager();
+            if ($userManager->isLogged()) {
+
+                if (!isset($_GET['taskId']) || empty(trim($_GET['taskId']))) {
+                    echo json_encode(array("result" => false, "error" => "Identifiant de tâche manquant."));
+                    break;
+                }
+
+                $taskId = trim($_GET['taskId']);
+                $cardManager = new CardManager();
+                $comments = $cardManager->getComments($taskId);
+
+                $commentsArray = array();
+                foreach ($comments as $comment) {
+                    $commentsArray[] = array(
+                        "contenu" => $comment->getContenu(),
+                        "date" => $comment->getDate()->format("d.m.Y"),
+                        "auteur" => $comment->getAuteur()
+                    );
+                }
+                echo json_encode($commentsArray);
+            } else {
+                // Renvoyer un code HTTP 401 Unauthorized et un message JSON
+                header('HTTP/1.1 401 Unauthorized');
+                header('Content-Type: application/json; charset=UTF-8');
+                echo json_encode(array("result" => false, "error" => "Unauthorized"));
+            }
+        }
+        break;
+
+
     default:
         echo json_encode(array("error" => "Action non spécifiée ou inconnue"));
         break;

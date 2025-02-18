@@ -59,6 +59,11 @@ class DBCardManager
     public function updateTask($originalTaskName, $taskName, $priority, $dueDate)
     {
         $db = DBConnection::getInstance();
+
+        if (empty(trim($dueDate))) {
+            $dueDate = null;
+        }
+
         $sql = "UPDATE t_tache SET nom = ?, priorite = ?, date_echeance = ? WHERE nom = ?";
         $params = array($taskName, $priority, $dueDate, $originalTaskName);
         $rowCount = $db->executeQuery($sql, $params);
@@ -87,7 +92,6 @@ class DBCardManager
         $rowCount = $db->executeQuery($sql, $params);
         return $rowCount > 0;
     }
-
 
     /**
      * Ajoute un commentaire associé à une tâche identifiée par son nom (originalTaskName).
@@ -140,5 +144,40 @@ class DBCardManager
         $rowCount = $db->executeQuery($sql, array($taskName));
         return $rowCount > 0;
     }
+
+    /**
+     * Récupère les commentaires associés à une tâche.
+     *
+     * @param string $taskId L'ID de la tâche.
+     * @return array|false Un tableau contenant les commentaires ou false en cas d'erreur.
+     */
+    public function getComments($taskId)
+    {
+        $db = DBConnection::getInstance();
+        $sql = "SELECT 
+                c.commentaire, 
+                c.date_creation, 
+                u.nom AS auteurNom, 
+                u.prenom AS auteurPrenom
+            FROM t_commentaire c
+            LEFT JOIN t_utilisateur u ON c.fk_utilisateur_commentaire = u.pk_utilisateur
+            WHERE c.fk_tache = ?";
+        $results = $db->selectQuery($sql, array($taskId));
+        if ($results === false) {
+            return false;
+        }
+
+        $comments = array();
+        foreach ($results as $row) {
+            // Créer un objet Comment à partir des données récupérées
+            $auteur = $row['auteurNom'] . " " . $row['auteurPrenom'];
+            $commentObj = new Comment($row['commentaire'], new DateTime($row['date_creation']), $auteur);
+            $comments[] = $commentObj;
+        }
+        return $comments;
+    }
+
+
+
 }
 ?>

@@ -155,3 +155,21 @@ function deleteTask(taskName, successCallback, errorCallback) {
         error: errorCallback
     });
 }
+
+/**
+ * Envoie une requête AJAX retournant les commentaires d'une tâche spécifique.
+ * 
+ * @param {string} taskId - L'ID de la tâche des commentaires à récupérer.
+ * @param {function} successCallback - Fonction appelée en cas de succès.
+ * @param {function} errorCallback - Fonction appelée en cas d'erreur.
+ */
+function chargerCommentaires(taskId, successCallback, errorCallback) {
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: BASE_URL + "?action=getComments",
+        data: { taskId: taskId },
+        success: successCallback,
+        error: errorCallback
+    });
+}

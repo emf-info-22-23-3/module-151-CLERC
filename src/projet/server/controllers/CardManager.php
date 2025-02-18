@@ -65,5 +65,16 @@ class CardManager
         return $isTaskDeleted;
     }
 
+    /**
+     * Récupère les commentaires d'une tâche à partir de son identifiant.
+     *
+     * @param string $taskId L'ID de la tâche.
+     * @return array|false Un tableau de commentaires (chaque commentaire contient 'contenu', 'date' et 'auteur') ou false en cas d'erreur.
+     */
+    public function getComments($taskId)
+    {
+        return $this->dbCardManager->getComments($taskId);
+    }
+
 }
 ?>
