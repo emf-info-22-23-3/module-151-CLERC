@@ -8,19 +8,19 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema mydb
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Schema bd_gestionnaireTaches
+-- Schema clercd_gestionnaireTaches
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema bd_gestionnaireTaches
+-- Schema clercd_gestionnaireTaches
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `bd_gestionnaireTaches` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin ;
-USE `bd_gestionnaireTaches` ;
+CREATE SCHEMA IF NOT EXISTS `clercd_gestionnaireTaches` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin ;
+USE `clercd_gestionnaireTaches` ;
 
 -- -----------------------------------------------------
--- Table `bd_gestionnaireTaches`.`t_utilisateur`
+-- Table `clercd_gestionnaireTaches`.`t_utilisateur`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_gestionnaireTaches`.`t_utilisateur` (
+CREATE TABLE IF NOT EXISTS `clercd_gestionnaireTaches`.`t_utilisateur` (
   `pk_utilisateur` INT NOT NULL AUTO_INCREMENT,
   `nom` VARCHAR(30) NOT NULL,
   `prenom` VARCHAR(20) NOT NULL,
@@ -33,9 +33,9 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_gestionnaireTaches`.`t_tache`
+-- Table `clercd_gestionnaireTaches`.`t_tache`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_gestionnaireTaches`.`t_tache` (
+CREATE TABLE IF NOT EXISTS `clercd_gestionnaireTaches`.`t_tache` (
   `pk_tache` INT NOT NULL AUTO_INCREMENT,
   `nom` VARCHAR(100) NOT NULL,
   `date_creation` DATETIME NOT NULL,
@@ -47,15 +47,15 @@ CREATE TABLE IF NOT EXISTS `bd_gestionnaireTaches`.`t_tache` (
   INDEX `fk_utilisateur_tache_idx` (`fk_utilisateur_tache` ASC) VISIBLE,
   CONSTRAINT `fk_utilisateur_tache`
     FOREIGN KEY (`fk_utilisateur_tache`)
-    REFERENCES `bd_gestionnaireTaches`.`t_utilisateur` (`pk_utilisateur`))
+    REFERENCES `clercd_gestionnaireTaches`.`t_utilisateur` (`pk_utilisateur`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `bd_gestionnaireTaches`.`t_commentaire`
+-- Table `clercd_gestionnaireTaches`.`t_commentaire`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bd_gestionnaireTaches`.`t_commentaire` (
+CREATE TABLE IF NOT EXISTS `clercd_gestionnaireTaches`.`t_commentaire` (
   `pk_commentaire` INT NOT NULL AUTO_INCREMENT,
   `commentaire` VARCHAR(200) NOT NULL,
   `date_creation` DATETIME NOT NULL,
@@ -66,10 +66,10 @@ CREATE TABLE IF NOT EXISTS `bd_gestionnaireTaches`.`t_commentaire` (
   INDEX `fk_tache_idx` (`fk_tache` ASC) VISIBLE,
   CONSTRAINT `fk_tache`
     FOREIGN KEY (`fk_tache`)
-    REFERENCES `bd_gestionnaireTaches`.`t_tache` (`pk_tache`),
+    REFERENCES `clercd_gestionnaireTaches`.`t_tache` (`pk_tache`),
   CONSTRAINT `fk_utilisateur_commentaire`
     FOREIGN KEY (`fk_utilisateur_commentaire`)
-    REFERENCES `bd_gestionnaireTaches`.`t_utilisateur` (`pk_utilisateur`))
+    REFERENCES `clercd_gestionnaireTaches`.`t_utilisateur` (`pk_utilisateur`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
