@@ -181,7 +181,14 @@ switch ($action) {
 
                 $cardManager = new CardManager();
                 $userId = $userManager->getAuthorId();
-                $isUpdated = $cardManager->updateTask($taskId, $taskName, $priority, $dueDate, $comment, $userId);
+                $isUpdated = $cardManager->updateTask(
+                    $taskId,
+                    $taskName,
+                    $priority,
+                    $dueDate,
+                    $comment,
+                    $userId
+                );
 
                 if ($isUpdated) {
                     echo json_encode(array('result' => true));
@@ -236,7 +243,13 @@ switch ($action) {
 
                 $cardManager = new CardManager();
                 $userId = $userManager->getAuthorId();
-                $isAdded = $cardManager->addTask($taskName, $priority, $dueDate, $comment, $userId);
+                $isAdded = $cardManager->addTask(
+                    $taskName,
+                    $priority,
+                    $dueDate,
+                    $comment,
+                    $userId
+                );
 
                 if ($isAdded) {
                     echo json_encode(array('result' => true));

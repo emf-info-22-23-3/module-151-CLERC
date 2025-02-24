@@ -59,7 +59,7 @@ class DBUserManager
             $userId = $db->getLastId("t_utilisateur");
 
             // Exécuter une requête pour vérifier que l'ajout a complètement fonctionné, puis retourner un nouveau User
-            $userData = $db->selectSingleQuery("SELECT pk_utilisateur, login, password FROM t_utilisateur WHERE pk_utilisateur = ?", array($userId));
+            $userData = $db->selectSingleQuery("SELECT pk_utilisateur, nom, prenom, login, password FROM t_utilisateur WHERE pk_utilisateur = ?", array($userId));
             if ($userData) {
                 return new User(
                     (int) $userData['pk_utilisateur'],

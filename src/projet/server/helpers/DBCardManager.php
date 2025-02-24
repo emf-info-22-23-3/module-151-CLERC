@@ -54,21 +54,37 @@ class DBCardManager
      * @param string $taskName Le nouveau nom de la tâche.
      * @param string $priority La nouvelle priorité.
      * @param string|null $dueDate La nouvelle date d'échéance (format "yyyy-MM-dd" ou null).
+     * @param string $userId l'ID de l'utilisateur du commentaire
+     * @param string $comment Le nouveau commentaire à ajouter (peut être null s'il n'y en a pas)
      * @return bool true si la mise à jour a réussi, false sinon.
      */
-    public function updateTask($taskId, $taskName, $priority, $dueDate)
+    public function updateTask($taskId, $taskName, $priority, $dueDate, $userId, $comment)
     {
         $db = DBConnection::getInstance();
+        try {
+            $db->beginTransaction();
 
-        if (empty(trim($dueDate))) {
-            $dueDate = null;
+            $sql = "UPDATE t_tache SET nom = ?, priorite = ?, date_echeance = ? WHERE pk_tache = ?";
+            $params = array($taskName, $priority, $dueDate, $taskId);
+            $rowCount = $db->executeQuery($sql, $params);
+
+            $isCommentInserted = false;
+            if ($comment instanceof Comment) {
+                $sql = "INSERT INTO t_commentaire (commentaire, date_creation, fk_utilisateur_commentaire, fk_tache) VALUES (?, ?, ?, ?)";
+                $dateStr = $comment->getDate()->format("Y-m-d");
+                $params = array($comment->getContenu(), $dateStr, $userId, $taskId);
+                $isCommentInserted = $db->executeQuery($sql, $params);
+            }
+
+            $db->commitTransaction();
+            // Option A : retourner true uniquement si l'UPDATE a affecté au moins une ligne
+            // Option B : retourner true si l'UPDATE ou l'insertion du commentaire a réussi
+            return ($rowCount > 0) || $isCommentInserted;
+
+        } catch (Exception $e) {
+            $db->rollbackTransaction();
+            return false;
         }
-
-        $sql = "UPDATE t_tache SET nom = ?, priorite = ?, date_echeance = ? WHERE pk_tache = ?";
-        $params = array($taskName, $priority, $dueDate, $taskId);
-        $rowCount = $db->executeQuery($sql, $params);
-
-        return $rowCount > 0;
     }
 
     /**
@@ -77,55 +93,41 @@ class DBCardManager
      * @param string $taskName Le nouveau nom de la tâche.
      * @param string $priority La nouvelle priorité.
      * @param string|null $dueDate La nouvelle date d'échéance (format "yyyy-MM-dd" ou null).
+     * @param string $categorie La catégorie où la tâche va être ajoutée.
+     * @param string $userId L'ID de l'utilisateur.
+     * @param string $dateCreation La date de création de la tâche.
+     * @param string $comment Le nouveau commentaire à ajouter (peut être null)
      * @return bool true si la mise à jour a réussi, false sinon.
      */
-    public function addTask($taskName, $dueDate, $categorie, $priority, $userId)
+    public function addTask($taskName, $dueDate, $categorie, $priority, $userId, $dateCreation, $comment)
     {
         $db = DBConnection::getInstance();
+        try {
+            $db->beginTransaction();
 
-        $dateCreation = (new DateTime())->format("Y-m-d");
-        if (empty(trim($dueDate))) {
-            $dueDate = null;
+            $sql = "INSERT INTO t_tache (nom, date_creation, date_echeance, categorie, priorite, fk_utilisateur_tache) VALUES (?, ?, ?, ?, ?, ?)";
+            $params = array($taskName, $dateCreation, $dueDate, $categorie, $priority, $userId);
+            $rowCount = $db->executeQuery($sql, $params);
+
+            if ($rowCount <= 0) {
+                throw new Exception("Échec de l'insertion de la tâche");
+            }
+            $lastId = $db->getLastId("t_tache");
+
+            if ($comment instanceof Comment) {
+                $sql = "INSERT INTO t_commentaire (commentaire, date_creation, fk_utilisateur_commentaire, fk_tache) VALUES (?, ?, ?, ?)";
+                $dateStr = $comment->getDate()->format("Y-m-d");
+                $params = array($comment->getContenu(), $dateStr, $userId, $lastId);
+                $db->executeQuery($sql, $params);
+            }
+
+            $db->commitTransaction();
+            return ($rowCount > 0);
+
+        } catch (Exception $e) {
+            $db->rollbackTransaction();
+            return false;
         }
-
-        $sql = "INSERT INTO t_tache (nom, date_creation, date_echeance, categorie, priorite, fk_utilisateur_tache) VALUES (?, ?, ?, ?, ?, ?)";
-        $params = array($taskName, $dateCreation, $dueDate, $categorie, $priority, $userId);
-        $rowCount = $db->executeQuery($sql, $params);
-
-        if ($rowCount > 0) {
-            // Retourne l'ID de la tâche nouvellement insérée
-            return $db->getLastId("t_tache");
-        }
-        return false;
-    }
-
-    /**
-     * Ajoute un commentaire associé à une tâche identifiée par son id.
-     *
-     * @param string $taskId L'ID de la tâche.
-     * @param Comment $comment L'objet Comment à ajouter.
-     * @return bool true si l'ajout du commentaire a réussi, false sinon.
-     */
-    public function addComment($taskId, Comment $comment, int $userId)
-    {
-        $db = DBConnection::getInstance();
-
-        $sql = "INSERT INTO t_commentaire (commentaire, date_creation, fk_utilisateur_commentaire, fk_tache) VALUES (?, ?, ?, ?)";
-        $dateStr = $comment->getDate()->format("Y-m-d");
-        $params = array($comment->getContenu(), $dateStr, $userId, $taskId);
-        $rowCount = $db->executeQuery($sql, $params);
-        return ($rowCount > 0);
-    }
-
-    public function deleteComments($taskId)
-    {
-        $db = DBConnection::getInstance();
-
-        // Supprimer tous les commentaires associés à cette tâche
-        $sql = "DELETE FROM t_commentaire WHERE fk_tache = ?";
-        // On n'a pas besoin de vérifier le rowCount ici : 0 est acceptable s'il n'y a aucun commentaire
-        $db->executeQuery($sql, array($taskId));
-        return true;
     }
 
     public function deleteComment($commentId)
@@ -139,9 +141,24 @@ class DBCardManager
     public function deleteTask($taskId)
     {
         $db = DBConnection::getInstance();
-        $sql = "DELETE FROM t_tache WHERE pk_tache = ?";
-        $rowCount = $db->executeQuery($sql, array($taskId));
-        return $rowCount > 0;
+        try {
+            $db->beginTransaction();
+
+            // Supprimer tous les commentaires associés à cette tâche
+            $sql = "DELETE FROM t_commentaire WHERE fk_tache = ?";
+            $db->executeQuery($sql, array($taskId));
+
+            // Supprimer la tâche
+            $sql = "DELETE FROM t_tache WHERE pk_tache = ?";
+            $rowCount = $db->executeQuery($sql, array($taskId));
+
+            $db->commitTransaction();
+            return $rowCount > 0;
+
+        } catch (\Exception $e) {
+            $db->rollbackTransaction();
+            return false;
+        }
     }
 
     /**
