@@ -1,5 +1,7 @@
 <?php
 /**
+ * Classe permettant la gestion des différentes requêtes SQL, communique directement avec la BD
+ * 
  * @author Lexkalli
  */
 

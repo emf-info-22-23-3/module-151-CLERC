@@ -51,6 +51,8 @@ switch ($action) {
                     !isset($_POST['login']) || !isset($_POST['password']) ||
                     empty(trim($_POST['login'])) || empty(trim($_POST['password']))
                 ) {
+                    header('Content-Type: application/json; charset=UTF-8');
+                    header('HTTP/1.1 400 Bad Request');
                     echo json_encode(array("result" => false, "error" => "Identifiants incomplets"));
                     break;
                 }
@@ -100,6 +102,8 @@ switch ($action) {
                     !isset($_POST['name']) || !isset($_POST['fullname']) || !isset($_POST['login']) || !isset($_POST['password']) ||
                     empty(trim($_POST['name'])) || empty(trim($_POST['fullname'])) || empty(trim($_POST['login'])) || empty(trim($_POST['password']))
                 ) {
+                    header('Content-Type: application/json; charset=UTF-8');
+                    header('HTTP/1.1 400 Bad Request');
                     echo json_encode(array("result" => false, "error" => "Un ou plusieurs champs ne sont pas renseignés."));
                     break;
                 }
@@ -137,7 +141,6 @@ switch ($action) {
             if ($userManager->isLogged()) {
                 echo json_encode(array("result" => true));
             } else {
-                // Renvoyer un code HTTP 401 Unauthorized et un message JSON
                 header('HTTP/1.1 401 Unauthorized');
                 header('Content-Type: application/json; charset=UTF-8');
                 echo json_encode(array("result" => false, "error" => "Unauthorized"));
@@ -152,6 +155,8 @@ switch ($action) {
             if ($userManager->isLogged()) {
 
                 if (!isset($_POST['taskId']) || empty(trim($_POST['taskId']))) {
+                    header('Content-Type: application/json; charset=UTF-8');
+                    header('HTTP/1.1 400 Bad Request');
                     echo json_encode(array("result" => false, "error" => "Erreur lors de la récupération de l'id de la tâche."));
                     break;
                 }
@@ -161,6 +166,8 @@ switch ($action) {
                     !isset($_POST['taskName']) || !isset($_POST['priority']) ||
                     empty(trim($_POST['taskName'])) || empty(trim($_POST['priority']))
                 ) {
+                    header('Content-Type: application/json; charset=UTF-8');
+                    header('HTTP/1.1 400 Bad Request');
                     echo json_encode(array("result" => false, "error" => "Les champs nom et priorité doivent être renseignés."));
                     break;
                 }
@@ -221,6 +228,8 @@ switch ($action) {
                     !isset($_POST['taskName']) || !isset($_POST['priority']) ||
                     empty(trim($_POST['taskName'])) || empty(trim($_POST['priority']))
                 ) {
+                    header('Content-Type: application/json; charset=UTF-8');
+                    header('HTTP/1.1 400 Bad Request');
                     echo json_encode(array("result" => false, "error" => "Les champs nom et priorité doivent être renseignés."));
                     break;
                 }
@@ -282,6 +291,8 @@ switch ($action) {
 
                 // Vérifier que les données obligatoires sont bien fournis
                 if (!isset($_POST['taskId']) || empty(trim($_POST['taskId']))) {
+                    header('Content-Type: application/json; charset=UTF-8');
+                    header('HTTP/1.1 400 Bad Request');
                     echo json_encode(array("result" => false, "error" => "Erreur lors de la récupération de l'ID de la tâche."));
                     break;
                 }
@@ -313,6 +324,8 @@ switch ($action) {
 
                 // Vérifier que les données obligatoires sont bien fournis
                 if (!isset($_GET['taskId']) || empty(trim($_GET['taskId']))) {
+                    header('Content-Type: application/json; charset=UTF-8');
+                    header('HTTP/1.1 400 Bad Request');
                     echo json_encode(array("result" => false, "error" => "Identifiant de tâche manquant."));
                     break;
                 }
@@ -348,6 +361,8 @@ switch ($action) {
 
                 // Vérifier que les données obligatoires sont bien fournis
                 if (!isset($_POST['commentId']) || empty(trim($_POST['commentId']))) {
+                    header('Content-Type: application/json; charset=UTF-8');
+                    header('HTTP/1.1 400 Bad Request');
                     echo json_encode(array("result" => false, "error" => "Identifiant du commentaire manquant."));
                     break;
                 }
@@ -378,10 +393,14 @@ switch ($action) {
 
                 // Vérifier que les données obligatoires sont bien fournis
                 if (!isset($_POST['taskId']) || empty(trim($_POST['taskId']))) {
-                    echo json_encode(array("result" => false, "error" => "Identifiant de tâche manquant."));
+                    header('Content-Type: application/json; charset=UTF-8');
+                    header('HTTP/1.1 400 Bad Request');
+                    echo json_encode(array("result" => false, "error" => "Identifiant de tâche manquant"));
                     break;
                 }
                 if (!isset($_POST['newCategory']) || empty(trim($_POST['newCategory']))) {
+                    header('Content-Type: application/json; charset=UTF-8');
+                    header('HTTP/1.1 400 Bad Request');
                     echo json_encode(array("result" => false, "error" => "Nouvelle catégorie manquante."));
                     break;
                 }
@@ -408,6 +427,8 @@ switch ($action) {
 
     // Par défaut, si l'action n'est pas reconnue, on lui répond avec une erreur
     default:
+        header('HTTP/1.1 400 Bad Request');
+        header('Content-Type: application/json; charset=UTF-8');
         echo json_encode(array("error" => "Action non spécifiée ou inconnue"));
         break;
 }
