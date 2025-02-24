@@ -15,10 +15,10 @@ class DBConfig
 
     public function __construct(
         $type = 'mysql',
-        $host = 'database',
-        $name = 'bd_gestionnaireTaches',
-        $user = 'root',
-        $pass = 'root'
+        $host = 'emf-informatique.ch',
+        $name = 'clercd_gestionnaireTaches',
+        $user = 'clercd_root',
+        $pass = 'BBE5Sq0&cSIr'
     ) {
         $this->type = $type;
         $this->host = $host;
