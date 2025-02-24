@@ -119,7 +119,6 @@ switch ($action) {
                     echo json_encode(array("result" => false, "error" => "La base de données contient déjà un utilisateur avec ce login."));
                 }
             } else {
-                // Renvoyer un code HTTP 401 Unauthorized et un message JSON
                 header('HTTP/1.1 401 Unauthorized');
                 header('Content-Type: application/json; charset=UTF-8');
                 echo json_encode(array("result" => false, "error" => "Unauthorized"));
@@ -195,6 +194,10 @@ switch ($action) {
                 } else {
                     echo json_encode(array("error" => "Erreur lors de la modification de la tâche. Avez-vous modifié une donnée ?"));
                 }
+            } else {
+                header('HTTP/1.1 401 Unauthorized');
+                header('Content-Type: application/json; charset=UTF-8');
+                echo json_encode(array("result" => false, "error" => "Unauthorized"));
             }
         }
         break;
@@ -256,6 +259,10 @@ switch ($action) {
                 } else {
                     echo json_encode(array("error" => "Erreur lors de l'ajout de la tâche."));
                 }
+            } else {
+                header('HTTP/1.1 401 Unauthorized');
+                header('Content-Type: application/json; charset=UTF-8');
+                echo json_encode(array("result" => false, "error" => "Unauthorized"));
             }
         }
         break;
@@ -280,6 +287,10 @@ switch ($action) {
                 } else {
                     echo json_encode(array("result" => false, "error" => "Erreur lors de la suppression de la tâche."));
                 }
+            } else {
+                header('HTTP/1.1 401 Unauthorized');
+                header('Content-Type: application/json; charset=UTF-8');
+                echo json_encode(array("result" => false, "error" => "Unauthorized"));
             }
         }
         break;
@@ -338,6 +349,7 @@ switch ($action) {
                 }
             } else {
                 header('HTTP/1.1 401 Unauthorized');
+                header('Content-Type: application/json; charset=UTF-8');
                 echo json_encode(array("result" => false, "error" => "Unauthorized"));
             }
         }
