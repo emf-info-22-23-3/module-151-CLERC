@@ -2,7 +2,7 @@
  * @author Lexkalli
  */
 
-let BASE_URL = "https://clercd.emf-informatique.ch/151_gestionnaireKANBAN/projet/server/main.php";
+let BASE_URL = "https://clercd.emf-informatique.ch/151_ManageKANBAN/projet/server/main.php";
 
 /**
  * Fonction permettant de charger les tâches.

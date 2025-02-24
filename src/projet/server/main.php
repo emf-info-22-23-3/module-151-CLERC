@@ -232,9 +232,9 @@ switch ($action) {
                 $dueDate = isset($_POST['dueDate']) ? trim($_POST['dueDate']) : null;
                 $newCommentText = isset($_POST['newComment']) ? trim($_POST['newComment']) : null;
 
-                // Vérifie que le nom de la tâche ne contient pas de guillemets simples et doubles
-                if (preg_match('/["\']/', $taskName)) {
-                    echo json_encode(array("result" => false, "error" => "Les guillemets ne sont pas autorisés dans le nom de la tâche."));
+                // Vérifie que le nom de la tâche ne contient pas de guillemets doubles
+                if (preg_match('/"/', $taskName)) {
+                    echo json_encode(array("result" => false, "error" => "Les guillemets doubles ne sont pas autorisés dans le nom de la tâche."));
                     break;
                 }
 
