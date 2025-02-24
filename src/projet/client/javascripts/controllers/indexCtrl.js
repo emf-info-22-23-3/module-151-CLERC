@@ -37,8 +37,8 @@ $(document).ready(function () {
         e.preventDefault(); // Empêcher la soumission classique du formulaire
 
         // Récupérer les valeurs du formulaire
-        var loginVal = $(this).find("input[name='login']").val();
-        var passwordVal = $(this).find("input[name='password']").val();
+        let loginVal = $(this).find("input[name='login']").val();
+        let passwordVal = $(this).find("input[name='password']").val();
 
         loginUser(loginVal, passwordVal, loginSuccess, loginError);
     });

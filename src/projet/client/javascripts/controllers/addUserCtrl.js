@@ -40,10 +40,10 @@ function isLoggedSuccess(response) {
             e.preventDefault(); // Empêcher la soumission classique du formulaire
 
             // Récupérer les valeurs du formulaire
-            var nameVal = $(this).find("input[name='name']").val();
-            var fullnameVal = $(this).find("input[name='fullname']").val();
-            var loginVal = $(this).find("input[name='login']").val();
-            var passwordVal = $(this).find("input[name='password']").val();
+            let nameVal = $(this).find("input[name='name']").val();
+            let fullnameVal = $(this).find("input[name='fullname']").val();
+            let loginVal = $(this).find("input[name='login']").val();
+            let passwordVal = $(this).find("input[name='password']").val();
 
             // Appeler la fonction de service pour créer un utilisateur en passant les callbacks
             createUser(nameVal, fullnameVal, loginVal, passwordVal, createUserSuccess, createUserError);

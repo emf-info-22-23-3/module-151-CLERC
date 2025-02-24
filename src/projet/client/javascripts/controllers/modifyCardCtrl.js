@@ -65,13 +65,13 @@ function isLoggedSuccess(response) {
                 e.preventDefault(); // Empêcher la soumission classique du formulaire
 
                 // Récupérer les valeurs du formulaire
-                var taskNameVal = $(this).find("input[name='taskName']").val();
-                var priorityVal = $(this).find("select[name='priority']").val();
-                var dueDateVal = $(this).find("input[name='dueDate']").val();
-                var newCommentVal = $(this).find("textarea[name='newComment']").val();
+                let taskNameVal = $(this).find("input[name='taskName']").val();
+                let priorityVal = $(this).find("select[name='priority']").val();
+                let dueDateVal = $(this).find("input[name='dueDate']").val();
+                let newCommentVal = $(this).find("textarea[name='newComment']").val();
 
                 // Récupérer l'id de la tâche
-                var taskId = localStorage.getItem("taskId");
+                let taskId = localStorage.getItem("taskId");
 
                 // Appeler la fonction de service pour créer un utilisateur en passant les callbacks
                 modifyTask(taskId, taskNameVal, priorityVal, dueDateVal, newCommentVal, modifyTaskSuccess, modifyTaskError);

@@ -138,7 +138,7 @@ function isLoggedSuccess(response) {
     chargerTasks(loadTasksSuccess, loadTasksError);
 
     // Afficher le paragraphe contenant le login de l'utilisateur
-    var login = sessionStorage.getItem('login');
+    let login = sessionStorage.getItem('login');
     if (login) {
       $("#connected-as").html("Connecté avec le login " + login);
     }
