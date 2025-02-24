@@ -1,5 +1,7 @@
 <?php
 /**
+ * Classe permettant la gestion des utilisateurs (communique avec la gestion des sessions).
+ * 
  * @author Lexkalli
  */
 
@@ -68,6 +70,11 @@ class UserManager
         return false;
     }
 
+    /**
+     * Vérifie si l'utilisateur est connecté ou non.
+     *
+     * @return bool true si l'utilisateur est connecté, false sinon.
+     */
     public function isLogged()
     {
         return $this->sessionManager->isLogged();
@@ -98,7 +105,7 @@ class UserManager
     }
 
     /**
-     * Retourne le nom et le prénom de l'utilisateur de la session.
+     * Retourne le nom et le prénom de l'utilisateur (concatenés en un string) de la session.
      *
      * @return string
      */

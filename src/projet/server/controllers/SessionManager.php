@@ -1,5 +1,7 @@
 <?php
 /**
+ * Classe permettant la gestion des sessions
+ * 
  * @author Lexkalli
  */
 
@@ -11,7 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
 class SessionManager
 {
     /**
-     * Enregistre l'utilisateur en session.
+     * Enregistre l'utilisateur en session (ID, nom et prénom).
      *
      * @param User $user L'objet utilisateur qui vient d'être authentifié.
      */
@@ -23,7 +25,7 @@ class SessionManager
     }
 
     /**
-     * Déconnecte l'utilisateur en supprimant les informations de session.
+     * Supprime les informations de la session puis la détruit.
      */
     public function logout()
     {
@@ -45,7 +47,7 @@ class SessionManager
     }
 
     /**
-     * Retourne le nom et le prénom de l'utilisateur de la session.
+     * Retourne le nom et le prénom de l'utilisateur (concatenés en un string) de la session.
      *
      * @return string
      */
@@ -58,7 +60,7 @@ class SessionManager
     }
 
     /**
-     * Retourne l'id de l'utilisateur de la session.
+     * Retourne l'ID de l'utilisateur de la session.
      *
      * @return int
      */
@@ -66,7 +68,7 @@ class SessionManager
     {
         $id = $_SESSION['id'];
 
-        return $id;
+        return (int) $id;
     }
 }
 ?>

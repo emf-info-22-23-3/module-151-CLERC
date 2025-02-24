@@ -166,7 +166,10 @@ function isLoggedError(request, status, error) {
   window.location.href = "../index.html";
 }
 
-function updateTaskCategorySuccess() {
+function updateTaskCategorySuccess(response) {
+  if (response.result === false) {
+    alert("Erreur lors de la mise à jour de la catégorie.");
+  }
   window.location.reload();
 }
 

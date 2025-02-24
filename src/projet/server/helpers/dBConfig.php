@@ -1,5 +1,7 @@
 <?php
 /**
+ * Classe contenant les informations liées à la BD afin de pouvoir s'y connecter
+ * 
  * @author Lexkalli
  */
 

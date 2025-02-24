@@ -1,5 +1,7 @@
 <?php
 /**
+ * Classe objet d'une tâche
+ * 
  * @author Lexkalli
  */
 
@@ -33,6 +35,24 @@ class Card
         $this->priorite = $priorite;
         $this->utilisateurOrigine = $utilisateurOrigineNom . " " . $utilisateurOriginePrenom;
         $this->commentaires = $commentaires;
+    }
+
+    // Méthodes pour gérer les commentaires
+    public function addCommentaire(Comment $commentaire): void
+    {
+        $this->commentaires[] = $commentaire;
+    }
+
+    public function removeCommentaire(int $index): void
+    {
+        if (isset($this->commentaires[$index])) {
+            array_splice($this->commentaires, $index, 1);
+        }
+    }
+
+    public function clearCommentaires(): void
+    {
+        $this->commentaires = [];
     }
 
     // Getters
@@ -100,24 +120,6 @@ class Card
     public function setUtilisateurOrigine(string $utilisateurOrigine): void
     {
         $this->utilisateurOrigine = $utilisateurOrigine;
-    }
-
-    // Méthodes pour gérer les commentaires
-    public function addCommentaire(Comment $commentaire): void
-    {
-        $this->commentaires[] = $commentaire;
-    }
-
-    public function removeCommentaire(int $index): void
-    {
-        if (isset($this->commentaires[$index])) {
-            array_splice($this->commentaires, $index, 1);
-        }
-    }
-
-    public function clearCommentaires(): void
-    {
-        $this->commentaires = [];
     }
 }
 ?>

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Classe permettant la gestion des utilisateurs au niveau de la BD.
+ * 
  * @author Lexkalli
  */
 

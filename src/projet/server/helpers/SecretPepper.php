@@ -1,5 +1,7 @@
 <?php
 /**
+ * Classe qui contient un Pepper, utilisé pour rendre le Hash des mots de passes plus robuste
+ * 
  * @author Lexkalli
  */
 

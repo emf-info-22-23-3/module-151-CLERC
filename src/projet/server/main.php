@@ -15,6 +15,8 @@ require_once("./helpers/SecretPepper.php");
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 
 switch ($action) {
+
+    // Récupérer toutes les tâches de la BD
     case "getTasks":
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
@@ -37,6 +39,7 @@ switch ($action) {
         }
         break;
 
+    // Tenter d'authentifier le visiteur
     case "login":
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -62,7 +65,6 @@ switch ($action) {
                     break;
                 }
 
-                // Utiliser UserManager pour la connexion, qui appellera SessionManager en interne
                 if ($userManager->login($login, $password)) {
                     echo json_encode(array("result" => true, "login" => $login));
                 } else {
@@ -74,6 +76,7 @@ switch ($action) {
         }
         break;
 
+    // Tente de déconnecter l'utilisateur
     case "logout":
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $userManager = new UserManager();
@@ -85,6 +88,7 @@ switch ($action) {
         }
         break;
 
+    // Tente de créer un nouvel utilisateur dans la BD
     case "createUser":
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -126,6 +130,7 @@ switch ($action) {
         }
         break;
 
+    // Vérifie si l'utilisateur est connecté ou non
     case "isLogged":
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $userManager = new UserManager();
@@ -140,6 +145,7 @@ switch ($action) {
         }
         break;
 
+    // Tente de mettre à jour une tâche à l'aide de son ID et de ses informations potentiellement modifiées à la BD
     case "updateTask":
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $userManager = new UserManager();
@@ -166,12 +172,14 @@ switch ($action) {
                 $newCommentText = isset($_POST['newComment']) ? trim($_POST['newComment']) : null;
                 $taskId = trim($_POST["taskId"]);
 
+                // Vérifie que la priorité est bien une de ces 4
                 $allowedPriorities = array("basse", "moyenne", "haute", "urgente");
                 if (!in_array(strtolower($priority), $allowedPriorities)) {
                     echo json_encode(array("result" => false, "error" => "La priorité doit être 'basse', 'moyenne', 'haute' ou 'urgente'."));
                     break;
                 }
 
+                // Détermine s'il y a un commentaire à ajouter
                 $comment = null;
                 if (!empty($newCommentText)) {
                     $author = $userManager->getAuthor();
@@ -202,6 +210,7 @@ switch ($action) {
         }
         break;
 
+    // Tente d'ajouter une nouvelle tâche à la BD
     case "addTask":
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $userManager = new UserManager();
@@ -222,22 +231,20 @@ switch ($action) {
                 $dueDate = isset($_POST['dueDate']) ? trim($_POST['dueDate']) : null;
                 $newCommentText = isset($_POST['newComment']) ? trim($_POST['newComment']) : null;
 
+                // Vérifie que le nom de la tâche ne contient pas de guillemets simples et doubles
                 if (preg_match('/["\']/', $taskName)) {
                     echo json_encode(array("result" => false, "error" => "Les guillemets ne sont pas autorisés dans le nom de la tâche."));
                     break;
                 }
 
+                // Vérifie que la priorité est bien une de ces 4
                 $allowedPriorities = array("basse", "moyenne", "haute", "urgente");
                 if (!in_array(strtolower($priority), $allowedPriorities)) {
                     echo json_encode(array("result" => false, "error" => "La priorité doit être 'basse', 'moyenne', 'haute' ou 'urgente'."));
                     break;
                 }
 
-                if ($newCommentText === null) {
-                    echo json_encode(array("error" => "Comment null"));
-                    break;
-                }
-
+                // Détermine s'il y a un commentaire à ajouter
                 $comment = null;
                 if (!empty($newCommentText)) {
                     $author = $userManager->getAuthor();
@@ -267,16 +274,19 @@ switch ($action) {
         }
         break;
 
+    // Tente de supprimer une tâche à l'aide de son ID. Tous les commentaires associés à la tâche seront aussi supprimés.
     case "deleteTask":
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $userManager = new UserManager();
             if ($userManager->isLogged()) {
 
+                // Vérifier que les données obligatoires sont bien fournis
                 if (!isset($_POST['taskId']) || empty(trim($_POST['taskId']))) {
                     echo json_encode(array("result" => false, "error" => "Erreur lors de la récupération de l'ID de la tâche."));
                     break;
                 }
 
+                // Récupérer les données envoyées en POST
                 $taskId = trim($_POST['taskId']);
 
                 $cardManager = new CardManager();
@@ -295,16 +305,19 @@ switch ($action) {
         }
         break;
 
+    // Récupère tous les commentaires d'une tâche spécifique
     case "getComments":
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $userManager = new UserManager();
             if ($userManager->isLogged()) {
 
+                // Vérifier que les données obligatoires sont bien fournis
                 if (!isset($_GET['taskId']) || empty(trim($_GET['taskId']))) {
                     echo json_encode(array("result" => false, "error" => "Identifiant de tâche manquant."));
                     break;
                 }
 
+                // Récupérer les données envoyées en POST
                 $taskId = trim($_GET['taskId']);
                 $cardManager = new CardManager();
                 $comments = $cardManager->getComments($taskId);
@@ -320,7 +333,6 @@ switch ($action) {
                 }
                 echo json_encode($commentsArray);
             } else {
-                // Renvoyer un code HTTP 401 Unauthorized et un message JSON
                 header('HTTP/1.1 401 Unauthorized');
                 header('Content-Type: application/json; charset=UTF-8');
                 echo json_encode(array("result" => false, "error" => "Unauthorized"));
@@ -328,16 +340,19 @@ switch ($action) {
         }
         break;
 
+    // Tente de supprimer un commentaire spécifique à l'aide de son ID
     case "deleteComment":
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $userManager = new UserManager();
             if ($userManager->isLogged()) {
 
+                // Vérifier que les données obligatoires sont bien fournis
                 if (!isset($_POST['commentId']) || empty(trim($_POST['commentId']))) {
                     echo json_encode(array("result" => false, "error" => "Identifiant du commentaire manquant."));
                     break;
                 }
 
+                // Récupérer les données envoyées en POST
                 $commentId = trim($_POST['commentId']);
                 $cardManager = new CardManager();
                 $isDeleted = $cardManager->deleteComment($commentId);
@@ -355,10 +370,13 @@ switch ($action) {
         }
         break;
 
+    // Tente de mettre à jour la catégorie de la tâche
     case "updateCategory":
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $userManager = new UserManager();
             if ($userManager->isLogged()) {
+
+                // Vérifier que les données obligatoires sont bien fournis
                 if (!isset($_POST['taskId']) || empty(trim($_POST['taskId']))) {
                     echo json_encode(array("result" => false, "error" => "Identifiant de tâche manquant."));
                     break;
@@ -367,6 +385,8 @@ switch ($action) {
                     echo json_encode(array("result" => false, "error" => "Nouvelle catégorie manquante."));
                     break;
                 }
+
+                // Récupérer les données envoyées en POST
                 $taskId = trim($_POST['taskId']);
                 $newCategory = trim($_POST['newCategory']);
 
@@ -386,7 +406,7 @@ switch ($action) {
         }
         break;
 
-
+    // Par défaut, si l'action n'est pas reconnue, on lui répond avec une erreur
     default:
         echo json_encode(array("error" => "Action non spécifiée ou inconnue"));
         break;

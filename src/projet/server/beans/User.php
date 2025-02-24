@@ -1,5 +1,7 @@
 <?php
 /**
+ * Classe objet d'un utilisateur
+ * 
  * @author Lexkalli
  */
 

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Classe permettant la gestion des cartes (et commentaires) au niveau de la BD.
+ * 
  * @author Lexkalli
  */
 
@@ -12,10 +14,8 @@ class DBCardManager
      */
     public function getAllTasks()
     {
-        // Récupération de l'instance PDO via le singleton DBConnection
         $db = DBConnection::getInstance();
 
-        // Requête SQL avec jointure pour obtenir le login de l'utilisateur
         $sql = "SELECT 
                     t.pk_tache, 
                     t.nom, 
@@ -28,9 +28,9 @@ class DBCardManager
                 FROM t_tache t
                 LEFT JOIN t_utilisateur u ON t.fk_utilisateur_tache = u.pk_utilisateur";
 
-        // Exécution de la requête
         $result = $db->selectQuery($sql, array());
 
+        // Retourner un tableau de Card avec les informations récupérées
         $tasks = array();
         foreach ($result as $row) {
             $tasks[] = new Card(
@@ -48,7 +48,7 @@ class DBCardManager
     }
 
     /**
-     * Met à jour une tâche identifiée par son nom actuel (originalTaskName).
+     * Met à jour une tâche et potentiellement un commentaire dans la BD.
      *
      * @param string $taskId L'ID de la tâche.
      * @param string $taskName Le nouveau nom de la tâche.
@@ -56,7 +56,7 @@ class DBCardManager
      * @param string|null $dueDate La nouvelle date d'échéance (format "yyyy-MM-dd" ou null).
      * @param string $userId l'ID de l'utilisateur du commentaire
      * @param string $comment Le nouveau commentaire à ajouter (peut être null s'il n'y en a pas)
-     * @return bool true si la mise à jour a réussi, false sinon.
+     * @return bool true si la mise à jour ou l'ajout du commentaire a réussi, false sinon.
      */
     public function updateTask($taskId, $taskName, $priority, $dueDate, $userId, $comment)
     {
@@ -68,6 +68,7 @@ class DBCardManager
             $params = array($taskName, $priority, $dueDate, $taskId);
             $rowCount = $db->executeQuery($sql, $params);
 
+            // Vérifier s'il y a un commentaire à ajouter ou non
             $isCommentInserted = false;
             if ($comment instanceof Comment) {
                 $sql = "INSERT INTO t_commentaire (commentaire, date_creation, fk_utilisateur_commentaire, fk_tache) VALUES (?, ?, ?, ?)";
@@ -88,16 +89,16 @@ class DBCardManager
     }
 
     /**
-     * Met à jour une tâche identifiée par son nom actuel (originalTaskName).
+     * Ajoute une tâche et potentiellement un commentaire à la BD
      *
      * @param string $taskName Le nouveau nom de la tâche.
-     * @param string $priority La nouvelle priorité.
      * @param string|null $dueDate La nouvelle date d'échéance (format "yyyy-MM-dd" ou null).
      * @param string $categorie La catégorie où la tâche va être ajoutée.
+     * @param string $priority La nouvelle priorité.
      * @param string $userId L'ID de l'utilisateur.
      * @param string $dateCreation La date de création de la tâche.
      * @param string $comment Le nouveau commentaire à ajouter (peut être null)
-     * @return bool true si la mise à jour a réussi, false sinon.
+     * @return bool true si l'ajout a réussi, false sinon.
      */
     public function addTask($taskName, $dueDate, $categorie, $priority, $userId, $dateCreation, $comment)
     {
@@ -112,8 +113,10 @@ class DBCardManager
             if ($rowCount <= 0) {
                 throw new Exception("Échec de l'insertion de la tâche");
             }
+            // Récupérer l'ID de la dernière tâche ajoutée
             $lastId = $db->getLastId("t_tache");
 
+            // Vérifier s'il y a un commentaire à ajouter ou non
             if ($comment instanceof Comment) {
                 $sql = "INSERT INTO t_commentaire (commentaire, date_creation, fk_utilisateur_commentaire, fk_tache) VALUES (?, ?, ?, ?)";
                 $dateStr = $comment->getDate()->format("Y-m-d");
@@ -130,6 +133,12 @@ class DBCardManager
         }
     }
 
+    /**
+     * Supprime un commentaire de la BD
+     *
+     * @param string $commentId L'ID du commentaire.
+     * @return bool true si la suppression a réussi, false sinon.
+     */
     public function deleteComment($commentId)
     {
         $db = DBConnection::getInstance();
@@ -138,6 +147,12 @@ class DBCardManager
         return ($rowCount > 0);
     }
 
+    /**
+     * Supprime une tâche et tous les commentaires associés à celle-ci de la BD
+     *
+     * @param string $taskId L'ID de la tâche.
+     * @return bool true si la suppression a réussi, false sinon.
+     */
     public function deleteTask($taskId)
     {
         $db = DBConnection::getInstance();
@@ -195,6 +210,13 @@ class DBCardManager
         return $comments;
     }
 
+    /**
+     * Met à jour la catégorie d'une tâche dans la BD
+     *
+     * @param string $taskId L'ID de la tâche.
+     * @param string $newCategory La catégorie souhaitée pour la tâche.
+     * @return bool true si la modification a réussi, false sinon.
+     */
     public function updateCategory($taskId, $newCategory)
     {
         $db = DBConnection::getInstance();

@@ -1,5 +1,7 @@
 <?php
 /**
+ *  * Classe permettant la gestion des cartes (et commentaires).
+ * 
  * @author Lexkalli
  */
 
