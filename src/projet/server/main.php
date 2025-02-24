@@ -4,11 +4,11 @@ require_once("./beans/Comment.php");
 require_once("./beans/User.php");
 require_once("./controllers/CardManager.php");
 require_once("./controllers/UserManager.php");
+require_once("./controllers/SessionManager.php");
 require_once("./helpers/DBConnection.php");
 require_once("./helpers/DBCardManager.php");
 require_once("./helpers/DBUserManager.php");
 require_once('./helpers/DBConfig.php');
-require_once("./controllers/SessionManager.php");
 require_once("./helpers/SecretPepper.php");
 
 // Vérifier que le paramètre 'action' soit là
@@ -354,6 +354,38 @@ switch ($action) {
             }
         }
         break;
+
+    case "updateCategory":
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $userManager = new UserManager();
+            if ($userManager->isLogged()) {
+                if (!isset($_POST['taskId']) || empty(trim($_POST['taskId']))) {
+                    echo json_encode(array("result" => false, "error" => "Identifiant de tâche manquant."));
+                    break;
+                }
+                if (!isset($_POST['newCategory']) || empty(trim($_POST['newCategory']))) {
+                    echo json_encode(array("result" => false, "error" => "Nouvelle catégorie manquante."));
+                    break;
+                }
+                $taskId = trim($_POST['taskId']);
+                $newCategory = trim($_POST['newCategory']);
+
+                $cardManager = new CardManager();
+                $isUpdated = $cardManager->updateCategory($taskId, $newCategory);
+
+                if ($isUpdated) {
+                    echo json_encode(array("result" => true));
+                } else {
+                    echo json_encode(array("result" => false, "error" => "Erreur lors de la mise à jour de la catégorie."));
+                }
+            } else {
+                header('HTTP/1.1 401 Unauthorized');
+                header('Content-Type: application/json; charset=UTF-8');
+                echo json_encode(array("result" => false, "error" => "Unauthorized"));
+            }
+        }
+        break;
+
 
     default:
         echo json_encode(array("error" => "Action non spécifiée ou inconnue"));

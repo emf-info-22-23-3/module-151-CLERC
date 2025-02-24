@@ -191,3 +191,22 @@ function deleteComment(commentId, successCallback, errorCallback) {
         error: errorCallback
     });
 }
+
+/**
+ * Envoie une requête AJAX pour mettre à jour la catégorie d'une tâche.
+ *
+ * @param {number} taskId - L'ID de la tâche.
+ * @param {string} newCategory - La nouvelle catégorie (ex: "todo", "inprogress", etc.).
+ * @param {function} successCallback - Fonction appelée en cas de succès.
+ * @param {function} errorCallback - Fonction appelée en cas d'erreur.
+ */
+function updateTaskCategory(taskId, newCategory, successCallback, errorCallback) {
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: BASE_URL + "?action=updateCategory",
+        data: { taskId: taskId, newCategory: newCategory },
+        success: successCallback,
+        error: errorCallback
+    });
+}

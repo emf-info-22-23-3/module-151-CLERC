@@ -81,5 +81,11 @@ class CardManager
         return $this->dbCardManager->deleteComment($commentId);
     }
 
+    public function updateCategory($taskId, $newCategory)
+    {
+        return $this->dbCardManager->updateCategory($taskId, $newCategory);
+    }
+
+
 }
 ?>

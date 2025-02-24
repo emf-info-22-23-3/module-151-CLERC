@@ -62,7 +62,7 @@ class DBCardManager
     {
         $db = DBConnection::getInstance();
         try {
-            $db->beginTransaction();
+            $db->startTransaction();
 
             $sql = "UPDATE t_tache SET nom = ?, priorite = ?, date_echeance = ? WHERE pk_tache = ?";
             $params = array($taskName, $priority, $dueDate, $taskId);
@@ -103,7 +103,7 @@ class DBCardManager
     {
         $db = DBConnection::getInstance();
         try {
-            $db->beginTransaction();
+            $db->startTransaction();
 
             $sql = "INSERT INTO t_tache (nom, date_creation, date_echeance, categorie, priorite, fk_utilisateur_tache) VALUES (?, ?, ?, ?, ?, ?)";
             $params = array($taskName, $dateCreation, $dueDate, $categorie, $priority, $userId);
@@ -142,7 +142,7 @@ class DBCardManager
     {
         $db = DBConnection::getInstance();
         try {
-            $db->beginTransaction();
+            $db->startTransaction();
 
             // Supprimer tous les commentaires associés à cette tâche
             $sql = "DELETE FROM t_commentaire WHERE fk_tache = ?";
@@ -194,5 +194,15 @@ class DBCardManager
         }
         return $comments;
     }
+
+    public function updateCategory($taskId, $newCategory)
+    {
+        $db = DBConnection::getInstance();
+        $sql = "UPDATE t_tache SET categorie = ? WHERE pk_tache = ?";
+        $params = array($newCategory, $taskId);
+        $rowCount = $db->executeQuery($sql, $params);
+        return $rowCount > 0;
+    }
+
 }
 ?>

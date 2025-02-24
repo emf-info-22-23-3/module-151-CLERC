@@ -100,6 +100,9 @@ function loadTasksSuccess(tasks) {
     // Stocker l'information dans le localStorage
     localStorage.setItem("taskId", taskId);
   });
+
+  // Une fois les tâches chargées, initialiser le drag & drop
+  initializeDragAndDrop();
 }
 
 /**
@@ -161,6 +164,43 @@ function isLoggedError(request, status, error) {
     alert("Erreur lors de la vérification de la session : " + error);
   }
   window.location.href = "../index.html";
+}
+
+function updateTaskCategorySuccess() {
+  window.location.reload();
+}
+
+function updateTaskCategoryError(response, textStatus, error) {
+  if (request.status === 401) {
+    alert("Erreur 401: Vous devez être connecté pour accéder à cette page.");
+  } else {
+    alert("Erreur lors de la vérification de la session : " + error);
+  }
+  window.location.href = "../index.html";
+}
+
+function initializeDragAndDrop() {
+  // Rendre chaque élément d'accordéon draggable
+  $(".accordion-item").draggable({
+    helper: "clone",
+    revert: "invalid",
+    cursor: "move"
+  });
+
+  // Rendre chaque colonne droppable
+  $(".kanban-column").droppable({
+    accept: ".accordion-item",
+    hoverClass: "drop-hover",
+    drop: function (event, ui) {
+      // Récupérer la nouvelle catégorie depuis l'attribut data-category de la colonne
+      let newCategory = $(this).data("category");
+      // Récupérer l'ID de la tâche depuis l'élément (par exemple, depuis le lien "modify-link" qui est dans l'item)
+      let taskId = ui.draggable.find(".modify-link").data("taskId");
+
+      // Appeler la fonction pour mettre à jour la catégorie de la tâche dans la BD
+      updateTaskCategory(taskId, newCategory, updateTaskCategorySuccess, updateTaskCategoryError);
+    }
+  });
 }
 
 $(document).ready(function () {
