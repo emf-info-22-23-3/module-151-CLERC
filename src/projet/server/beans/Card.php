@@ -7,14 +7,14 @@
 
 class Card
 {
-    private int $id;
-    private string $nom;
-    private string $categorie;
-    private DateTime $dateCreation;
-    private ?DateTime $dateEcheance;
-    private string $priorite;
-    private string $utilisateurOrigine;
-    private array $commentaires = [];
+    private $id;
+    private $nom;
+    private $categorie;
+    private $dateCreation;
+    private $dateEcheance;
+    private $priorite;
+    private $utilisateurOrigine;
+    private $commentaires = [];
 
     public function __construct(
         int $id,

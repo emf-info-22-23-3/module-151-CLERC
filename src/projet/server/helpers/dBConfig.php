@@ -15,7 +15,7 @@ class DBConfig
 
     public function __construct(
         $type = 'mysql',
-        $host = 'emf-informatique.ch',
+        $host = 'clercd.emf-informatique.ch',
         $name = 'clercd_gestionnaireTaches',
         $user = 'clercd_root',
         $pass = 'BBE5Sq0&cSIr'

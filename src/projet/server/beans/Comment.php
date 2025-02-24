@@ -7,10 +7,10 @@
 
 class Comment
 {
-    private int $id;
-    private string $contenu;
-    private DateTime $date;
-    private string $auteur;
+    private $id;
+    private $contenu;
+    private $date;
+    private $auteur;
 
     public function __construct(string $contenu, DateTime $date, string $auteur)
     {
