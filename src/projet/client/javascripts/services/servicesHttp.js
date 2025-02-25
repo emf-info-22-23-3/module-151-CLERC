@@ -5,7 +5,8 @@
 let BASE_URL = "https://clercd.emf-informatique.ch/151_ManageKANBAN/projet/server/main.php";
 
 /**
- * Fonction permettant de charger les tâches.
+ * Envoie une requête AJAX pour connecter charger les tâches.
+ * 
  * @param {function} successCallback - Fonction appelée en cas de succès.
  * @param {function} errorCallback - Fonction appelée en cas d'erreur.
  */
@@ -60,7 +61,7 @@ function logoutUser(successCallback, errorCallback) {
  * Envoie une requête AJAX pour créer un utilisateur.
  *
  * @param {string} name - Le nom de l'utilisateur.
- * @param {string} fullname - Le prénom (ou nom complet) de l'utilisateur.
+ * @param {string} fullname - Le prénom de l'utilisateur.
  * @param {string} login - Le login de l'utilisateur.
  * @param {string} password - Le mot de passe de l'utilisateur.
  * @param {function} successCallback - Fonction appelée en cas de succès.
@@ -80,7 +81,6 @@ function createUser(name, fullname, login, password, successCallback, errorCallb
 /**
  * Envoie une requête AJAX pour vérifier si la session est connectée.
  * 
- * Fonction permettant de vérifier si l'utilisateur est connecté.
  * @param {function} successCallback - Fonction appelée en cas de succès.
  * @param {function} errorCallback - Fonction appelée en cas d'erreur.
  */
@@ -98,7 +98,7 @@ function isLogged(successCallback, errorCallback) {
 /**
  * Envoie une requête AJAX pour modifier une tâche.
  *
- * @param {string} originalTaskName - L'ancien nom de la tâche (nom actuellement inscrit dans la BD).
+ * @param {string} taskId - L'ID unique de la tâche.
  * @param {string} taskName - Le nom de la tâche.
  * @param {string} priority - La priorité de la tâche.
  * @param {string} dueDate - La date d'échéance de la tâche (peut être null).
@@ -141,7 +141,7 @@ function addTask(taskName, priority, dueDate, newComment, successCallback, error
 /**
  * Envoie une requête AJAX pour supprimer une tâche.
  *
- * @param {string} taskName - Le nom de la tâche à supprimer.
+ * @param {string} taskId - L'ID unique de la tâche à supprimer.
  * @param {function} successCallback - Fonction appelée en cas de succès.
  * @param {function} errorCallback - Fonction appelée en cas d'erreur.
  */
@@ -159,7 +159,7 @@ function deleteTask(taskId, successCallback, errorCallback) {
 /**
  * Envoie une requête AJAX retournant les commentaires d'une tâche spécifique.
  * 
- * @param {string} taskId - L'ID de la tâche des commentaires à récupérer.
+ * @param {string} taskId - L'ID unique de la tâche.
  * @param {function} successCallback - Fonction appelée en cas de succès.
  * @param {function} errorCallback - Fonction appelée en cas d'erreur.
  */
@@ -177,7 +177,7 @@ function chargerCommentaires(taskId, successCallback, errorCallback) {
 /**
  * Envoie une requête AJAX pour supprimer un commentaire.
  * 
- * @param {string} commentId - L'ID du commentaire à supprimer.
+ * @param {string} commentId - L'ID unique du commentaire à supprimer.
  * @param {function} successCallback - Fonction appelée en cas de succès.
  * @param {function} errorCallback - Fonction appelée en cas d'erreur.
  */
@@ -195,7 +195,7 @@ function deleteComment(commentId, successCallback, errorCallback) {
 /**
  * Envoie une requête AJAX pour mettre à jour la catégorie d'une tâche.
  *
- * @param {number} taskId - L'ID de la tâche.
+ * @param {number} taskId - L'ID unique de la tâche.
  * @param {string} newCategory - La nouvelle catégorie (ex: "todo", "inprogress", etc.).
  * @param {function} successCallback - Fonction appelée en cas de succès.
  * @param {function} errorCallback - Fonction appelée en cas d'erreur.

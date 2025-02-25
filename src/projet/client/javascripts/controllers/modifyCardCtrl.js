@@ -1,10 +1,17 @@
 /*
+ * Cette classe permet la gestion de la page de modification de cartes
  * @author Lexkalli
  */
 
+/**
+ * Callback en cas de succès de modification de tâche
+ * @param {type} response
+ */
 function modifyTaskSuccess(response) {
     if (response.result) {
         alert("Tâche modifiée");
+
+        // Supprimer les variables respectives de localStorage
         localStorage.removeItem("taskId");
         localStorage.removeItem("taskName");
         localStorage.removeItem("priority");
@@ -15,6 +22,12 @@ function modifyTaskSuccess(response) {
     }
 }
 
+/**
+ * Callback en cas d'erreur de modification de tâche
+ * @param {type} request
+ * @param {type} status
+ * @param {type} error
+ */
 function modifyTaskError(request, status, error) {
     if (request.status === 401) {
         alert("Erreur 401: Vous devez être connecté pour modifier une tâche.");
@@ -23,6 +36,10 @@ function modifyTaskError(request, status, error) {
     }
 }
 
+/**
+ * Callback en cas de succès de si l'utilisateur est connecté
+ * @param {type} response
+ */
 function isLoggedSuccess(response) {
     if (response.result === true) {
         // L'utilisateur est connecté, afficher le contenu de la page
@@ -61,6 +78,7 @@ function isLoggedSuccess(response) {
                 localStorage.removeItem("dueDate");
             });
 
+            // Lorsque l'utilisateur clique sur le bouton de soumission du formulaire
             $("#updateTaskForm").on("submit", function (e) {
                 e.preventDefault(); // Empêcher la soumission classique du formulaire
 
@@ -73,7 +91,7 @@ function isLoggedSuccess(response) {
                 // Récupérer l'id de la tâche
                 let taskId = localStorage.getItem("taskId");
 
-                // Appeler la fonction de service pour créer un utilisateur en passant les callbacks
+                // Appeler le service pour tenter de créer un utilisateur
                 modifyTask(taskId, taskNameVal, priorityVal, dueDateVal, newCommentVal, modifyTaskSuccess, modifyTaskError);
             });
 
@@ -84,6 +102,12 @@ function isLoggedSuccess(response) {
     }
 }
 
+/**
+ * Callback en cas d'erreur de si l'utilisateur est connecté
+ * @param {type} request
+ * @param {type} status
+ * @param {type} error
+ */
 function isLoggedError(request, status, error) {
     if (request.status === 401) {
         alert("Erreur 401: Vous devez être connecté pour accéder à cette page.");

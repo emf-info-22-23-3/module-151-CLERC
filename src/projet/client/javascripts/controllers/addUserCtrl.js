@@ -1,7 +1,12 @@
 /*
+ * Cette classe permet la gestion de la page d'ajouts d'utilisateurs
  * @author Lexkalli
  */
 
+/**
+ * Callback en cas de succès de création d'utilisateur
+ * @param {type} response
+ */
 function createUserSuccess(response) {
     if (response.result) {
         alert("Nouvel utilisateur ajouté");
@@ -11,14 +16,24 @@ function createUserSuccess(response) {
     }
 }
 
-function createUserError(jqXHR, textStatus, errorThrown) {
+/**
+ * Callback en cas d'erreur de création d'utilisateur
+ * @param {type} request
+ * @param {type} status
+ * @param {type} error
+ */
+function createUserError(request, status, error) {
     if (jqXHR.status === 401) {
         alert("Erreur 401: Vous devez être connecté pour créer un utilisateur.");
     } else {
-        alert("Erreur lors de la création de l'utilisateur : " + errorThrown);
+        alert("Erreur lors de la création de l'utilisateur : " + error);
     }
 }
 
+/**
+ * Callback en cas de succès de si l'utilisateur est connecté
+ * @param {type} response
+ */
 function isLoggedSuccess(response) {
     if (response.result === true) {
         // L'utilisateur est connecté, afficher le contenu de la page
@@ -31,11 +46,12 @@ function isLoggedSuccess(response) {
                     this.setCustomValidity("Les champs login, nom et prénom doivent uniquement contenir des lettres sans espaces");
                 }
             })
-            // Reset le message personnalisé lorsque l'utilisateur modifie les champs respectifs
+            // Retirer le message personnalisé lorsque l'utilisateur modifie les champs respectifs
             .on("input", function () {
                 this.setCustomValidity("");
             });
 
+        // Lorsque l'utilisateur clique sur le bouton de soumission du formulaire
         $("#registerForm").on("submit", function (e) {
             e.preventDefault(); // Empêcher la soumission classique du formulaire
 
@@ -51,6 +67,12 @@ function isLoggedSuccess(response) {
     }
 }
 
+/**
+ * Callback en cas d'erreur de si l'utilisateur est connecté
+ * @param {type} request
+ * @param {type} status
+ * @param {type} error
+ */
 function isLoggedError(request, status, error) {
     if (request.status === 401) {
         alert("Erreur 401: Vous devez être connecté pour accéder à cette page.");

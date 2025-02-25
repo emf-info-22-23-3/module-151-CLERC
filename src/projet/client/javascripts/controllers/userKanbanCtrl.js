@@ -1,16 +1,17 @@
 /*
+ * Cette classe permet la gestion de la page de vue utilisateur
  * @author Lexkalli
  */
 
 /**
- * Méthode appelée lors du retour avec succès du résultat des équipes
- * @param {type} data
- * @param {type} text
- * @param {type} jqXHR
+ * Callback appelé lors du retour avec succès du résultat des équipes
+ * @param {type} tasks
  */
 function loadTasksSuccess(tasks) {
+
   // Pour chaque tâche reçue, on crée un élément d'accordéon et on l'injecte dans la bonne colonne.
   tasks.forEach(function (task) {
+
     // Détermine l'ID de l'accordéon en fonction de la catégorie
     let accordionId = "";
     let categorie = task.categorie.toLowerCase();
@@ -107,6 +108,9 @@ function loadTasksSuccess(tasks) {
 
 /**
  * Callback en cas d'erreur lors du chargement des tâches.
+ * @param {type} request
+ * @param {type} status
+ * @param {type} error
  */
 function loadTasksError(request, status, error) {
   if (request.status === 401) {
@@ -117,6 +121,10 @@ function loadTasksError(request, status, error) {
   window.location.href = "../index.html";
 }
 
+/**
+ * Callback en cas de succès de suppression de tâche
+ * @param {type} response
+ */
 function deleteTaskSuccess(response) {
   if (response.result) {
     alert("Tâche supprimée avec succès");
@@ -127,10 +135,20 @@ function deleteTaskSuccess(response) {
   }
 }
 
-function deleteTaskError(request, textStatus, error) {
+/**
+ * Callback en cas d'erreur de suppression de tâche
+ * @param {type} request
+ * @param {type} status
+ * @param {type} error
+ */
+function deleteTaskError(request, status, error) {
   alert("Erreur lors de la suppression de la tâche : " + error);
 }
 
+/**
+ * Callback en cas de succès de si l'utilisateur est connecté
+ * @param {type} response
+ */
 function isLoggedSuccess(response) {
   if (response.result === true) {
     // L'utilisateur est connecté, afficher le contenu et charger les tâches
@@ -157,6 +175,12 @@ function isLoggedSuccess(response) {
   }
 }
 
+/**
+ * Callback en cas d'erreur de si l'utilisateur est connecté
+ * @param {type} request
+ * @param {type} status
+ * @param {type} error
+ */
 function isLoggedError(request, status, error) {
   if (request.status === 401) {
     alert("Erreur 401: Vous devez être connecté pour accéder à cette page.");
@@ -166,6 +190,10 @@ function isLoggedError(request, status, error) {
   window.location.href = "../index.html";
 }
 
+/**
+ * Callback en cas de succès de mise à jour de catégorie de la tâche
+ * @param {type} response
+ */
 function updateTaskCategorySuccess(response) {
   if (response.result === false) {
     alert("Erreur lors de la mise à jour de la catégorie.");
@@ -173,7 +201,13 @@ function updateTaskCategorySuccess(response) {
   window.location.reload();
 }
 
-function updateTaskCategoryError(response, textStatus, error) {
+/**
+ * Callback en cas d'erreur de mise à jour de catégorie de la tâche
+ * @param {type} response
+ * @param {type} status
+ * @param {type} error
+ */
+function updateTaskCategoryError(response, status, error) {
   if (request.status === 401) {
     alert("Erreur 401: Vous devez être connecté pour accéder à cette page.");
   } else {
@@ -182,6 +216,9 @@ function updateTaskCategoryError(response, textStatus, error) {
   window.location.href = "../index.html";
 }
 
+/**
+ * Fonction qui initialise la fonctionnalité de drag and drop les tâches
+ */
 function initializeDragAndDrop() {
   // Rendre chaque élément d'accordéon draggable
   $(".accordion-item").draggable({

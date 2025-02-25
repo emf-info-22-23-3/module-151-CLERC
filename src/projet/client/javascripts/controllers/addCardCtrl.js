@@ -1,7 +1,12 @@
 /*
+ * Cette classe permet la gestion de la page d'ajouts de cartes
  * @author Lexkalli
  */
 
+/**
+ * Callback Fonction en cas de succès d'ajout de carte
+ * @param {type} response
+ */
 function addTaskSuccess(response) {
     if (response.result) {
         alert("Tâche ajoutée");
@@ -11,6 +16,12 @@ function addTaskSuccess(response) {
     }
 }
 
+/**
+ * Callback en cas d'erreur d'ajout de carte
+ * @param {type} request
+ * @param {type} status
+ * @param {type} error
+ */
 function addTaskError(request, status, error) {
     if (request.status === 401) {
         alert("Erreur 401: Vous devez être connecté pour ajouter une tâche.");
@@ -19,6 +30,12 @@ function addTaskError(request, status, error) {
     }
 }
 
+/**
+ * Callback en cas de succès de si l'utilisateur est connecté
+ * @param {type} request
+ * @param {type} status
+ * @param {type} error
+ */
 function isLoggedSuccess(response) {
     if (response.result === true) {
         // L'utilisateur est connecté, afficher le contenu de la page
@@ -48,6 +65,12 @@ function isLoggedSuccess(response) {
     }
 }
 
+/**
+ * Callback en cas d'erreur de si l'utilisateur est connecté
+ * @param {type} request
+ * @param {type} status
+ * @param {type} error
+ */
 function isLoggedError(request, status, error) {
     if (request.status === 401) {
         alert("Erreur 401: Vous devez être connecté pour accéder à cette page.");

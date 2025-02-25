@@ -1,12 +1,11 @@
 /*
+ * Cette classe permet la gestion de la page de vue visiteur
  * @author Lexkalli
  */
 
 /**
- * Méthode appelée lors du retour avec succès du résultat des équipes
- * @param {type} data
- * @param {type} text
- * @param {type} jqXHR
+ * Callback appelé lors du retour avec succès du résultat des équipes
+ * @param {type} tasks
  */
 function loadTasksSuccess(tasks) {
   // Pour chaque tâche reçue, on crée un élément d'accordéon et on l'injecte dans la bonne colonne.
@@ -57,14 +56,14 @@ function loadTasksSuccess(tasks) {
 
 /**
  * Callback en cas d'erreur lors du chargement des tâches.
+ * @param {type} request
+ * @param {type} status
+ * @param {type} error
  */
 function loadTasksError(request, status, error) {
   alert("Erreur lors du chargement des tâches : " + error || "Connexion à la BD impossible.");
 }
 
-/**
- * Fonction d'initialisation à exécuter lorsque la page est chargée.
- */
 $(document).ready(function () {
   // Appel du service pour charger les tâches
   chargerTasks(loadTasksSuccess, loadTasksError);
