@@ -4,6 +4,13 @@ Repository du projet personnel du module 151
 ## Titre du projet
 Gestionnaire de tâches (SCRUM)
 
+## Lien
+https://clercd.emf-informatique.ch/151_ManageKANBAN/projet/client/index.html
+
+## Utilisateur à utiliser
+	- login         : RouillerN
+	- mot de passe 	: Pa$$w0rd
+
 ### Description et fonctionnalités du projet
 - Les visiteurs peuvent consulter toutes les tâches, sans pouvoir les toucher.
 - Toutes les tâches seront visibles dès le chargement de la page Web. 
