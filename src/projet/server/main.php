@@ -57,7 +57,7 @@ switch ($action) {
                 }
 
                 // Récupérer les identifiants envoyés en POST
-                $login = trim($_POST['login']);
+                $login = htmlspecialchars(trim($_POST['login']));
                 $password = $_POST['password']; // Ne pas utiliser trim car un mot de passe doit être précis (l'espace au tout début peut potentiellement compter)
 
                 // Vérifier que $login ne contienne que des lettres sans espaces
@@ -107,9 +107,9 @@ switch ($action) {
                 }
 
                 // Récupérer les identifiants envoyés en POST
-                $name = trim($_POST['name']);
-                $fullname = trim($_POST['fullname']);
-                $login = trim($_POST['login']);
+                $name = htmlspecialchars(trim($_POST['name']));
+                $fullname = htmlspecialchars(trim($_POST['fullname']));
+                $login = htmlspecialchars(trim($_POST['login']));
                 $password = $_POST['password']; // Ne pas utiliser trim car un mot de passe doit être précis (l'espace au tout début peut potentiellement compter)
 
                 // Vérifier que $login, $name et $fullname ne contiennent que des lettres sans espaces
@@ -167,11 +167,11 @@ switch ($action) {
                 }
 
                 // Récupérer les données envoyées en POST
-                $taskName = trim($_POST['taskName']);
-                $priority = trim($_POST['priority']);
-                $dueDate = isset($_POST['dueDate']) ? trim($_POST['dueDate']) : null;
-                $newCommentText = isset($_POST['newComment']) ? trim($_POST['newComment']) : null;
-                $taskId = trim($_POST["taskId"]);
+                $taskName = htmlspecialchars(trim($_POST['taskName']));
+                $priority = htmlspecialchars(trim($_POST['priority']));
+                $dueDate = isset($_POST['dueDate']) ? htmlspecialchars(trim($_POST['dueDate'])) : null;
+                $newCommentText = isset($_POST['newComment']) ? htmlspecialchars(trim($_POST['newComment'])) : null;
+                $taskId = htmlspecialchars(trim($_POST["taskId"]));
 
                 // Vérifie que la priorité est bien une de ces 4
                 $allowedPriorities = array("basse", "moyenne", "haute", "urgente");
@@ -227,10 +227,10 @@ switch ($action) {
                 }
 
                 // Récupérer les données envoyées en POST
-                $taskName = trim($_POST['taskName']);
-                $priority = trim($_POST['priority']);
-                $dueDate = isset($_POST['dueDate']) ? trim($_POST['dueDate']) : null;
-                $newCommentText = isset($_POST['newComment']) ? trim($_POST['newComment']) : null;
+                $taskName = htmlspecialchars(trim($_POST['taskName']));
+                $priority = htmlspecialchars(trim($_POST['priority']));
+                $dueDate = isset($_POST['dueDate']) ? htmlspecialchars(trim($_POST['dueDate'])) : null;
+                $newCommentText = isset($_POST['newComment']) ? htmlspecialchars(trim($_POST['newComment'])) : null;
 
                 // Vérifie que le nom de la tâche ne contient pas de guillemets doubles
                 if (preg_match('/"/', $taskName)) {
@@ -288,7 +288,7 @@ switch ($action) {
                 }
 
                 // Récupérer les données envoyées en POST
-                $taskId = trim($_POST['taskId']);
+                $taskId = htmlspecialchars(trim($_POST['taskId']));
 
                 $cardManager = new CardManager();
                 $isDeleted = $cardManager->deleteTask($taskId);
@@ -319,7 +319,7 @@ switch ($action) {
                 }
 
                 // Récupérer les données envoyées en POST
-                $taskId = trim($_GET['taskId']);
+                $taskId = htmlspecialchars(trim($_GET['taskId']));
                 $cardManager = new CardManager();
                 $comments = $cardManager->getComments($taskId);
 
@@ -354,7 +354,7 @@ switch ($action) {
                 }
 
                 // Récupérer les données envoyées en POST
-                $commentId = trim($_POST['commentId']);
+                $commentId = htmlspecialchars(trim($_POST['commentId']));
                 $cardManager = new CardManager();
                 $isDeleted = $cardManager->deleteComment($commentId);
 
@@ -389,8 +389,8 @@ switch ($action) {
                 }
 
                 // Récupérer les données envoyées en POST
-                $taskId = trim($_POST['taskId']);
-                $newCategory = trim($_POST['newCategory']);
+                $taskId = htmlspecialchars(trim($_POST['taskId']));
+                $newCategory = htmlspecialchars(trim($_POST['newCategory']));
 
                 $cardManager = new CardManager();
                 $isUpdated = $cardManager->updateCategory($taskId, $newCategory);
